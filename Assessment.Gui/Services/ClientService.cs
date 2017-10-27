@@ -36,7 +36,7 @@ namespace Assessment.Gui.Services
             }
         }
 
-        public static IEnumerable<Dto.Client> Read()
+        public static IEnumerable<Client> Read()
         {
             using (var conn = new SqlConnection("data source=localhost;initial catalog=ClientInfo;Integrated Security=SSPI;"))
             using (var cmdRead = new SqlCommand("SELECT * FROM Client", conn))

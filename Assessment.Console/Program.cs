@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Assessment.Dto;
 using Assessment.Gui.Services;
+using Assessment.Gui.ViewModels;
 
 namespace Assessment.Console
 {
@@ -12,12 +13,8 @@ namespace Assessment.Console
     {
         static void Main(string[] args)
         {
-            var clients = ClientService.Read();
-            ////var clients = ClientService.BuildDummyData();
-            ////foreach (var c in clients)
-            ////{
-            ////    ClientService.Create(c);
-            ////}
+            var model = new ClientListViewModel();
+            model.Read();
         }
     }
 }

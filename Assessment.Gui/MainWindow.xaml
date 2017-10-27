@@ -4,9 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Assessment.Gui"
+        xmlns:dto="clr-namespace:Assessment.Dto;assembly=Assessment.Dto"
+        xmlns:viewModels="clr-namespace:Assessment.Gui.ViewModels"
+        xmlns:views="clr-namespace:Assessment.Gui.Views"
         mc:Ignorable="d"
+        DataContext="ClientListViewModel"
         Title="Client Maintenance Application" Height="350" Width="525">
     <Grid>
-        
+        <views:ClientListView></views:ClientListView>
     </Grid>
 </Window>

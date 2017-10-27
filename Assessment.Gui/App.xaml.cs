@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Assessment.Dto;
 using Assessment.Gui.Services;
+using Assessment.Gui.ViewModels;
 
 namespace Assessment.Gui
 {
@@ -18,12 +21,12 @@ namespace Assessment.Gui
 
         public App()
         {
-            ////var clients = ClientService.BuildDummyData();
-            ////foreach (var c in clients)
-            ////{
-            ////    ClientService.Create(c);
-            ////}
-            var clients = ClientService.Read();
+            var model = new ClientListViewModel();
+            model.Read();
+
+            var window = new MainWindow();
+            window.DataContext = model;
+            window.Show();
         }
     }
 }
