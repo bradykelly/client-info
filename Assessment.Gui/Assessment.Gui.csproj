@@ -63,6 +63,7 @@
     </ApplicationDefinition>
     <Compile Include="Services\ClientService.cs" />
     <Compile Include="ViewModels\Base\BaseViewModel.cs" />
+    <Compile Include="ViewModels\ClientListViewModel.cs" />
     <Compile Include="ViewModels\ClientViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

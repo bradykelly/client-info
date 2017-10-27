@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Assessment.Dto;
 
-namespace Assessment.Console
+namespace Assessment.Gui.ViewModels
 {
-    public class Class1
+    public class ClientListViewModel: List<Client>
     {
     }
 }

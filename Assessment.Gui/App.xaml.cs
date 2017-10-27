@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Assessment.Gui.Services;
 
 namespace Assessment.Gui
 {
@@ -13,5 +14,16 @@ namespace Assessment.Gui
     /// </summary>
     public partial class App : Application
     {
+        ClientService _clientService = new ClientService();
+
+        public App()
+        {
+            ////var clients = ClientService.BuildDummyData();
+            ////foreach (var c in clients)
+            ////{
+            ////    ClientService.Create(c);
+            ////}
+            var clients = ClientService.Read();
+        }
     }
 }
