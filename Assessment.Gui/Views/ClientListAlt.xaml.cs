@@ -24,5 +24,10 @@ namespace Assessment.Gui.Views
         {
             InitializeComponent();
         }
+
+        private void DataGrid_Loaded()
+        {
+
+        }
     }
 }

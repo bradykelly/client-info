@@ -7,6 +7,23 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-            <DataGrid AutoGenerateColumns="True"></DataGrid>
+        <DataGrid x:Name="ClientDataGrid"
+                  Width="Auto" 
+                  ItemsSource="{Binding UserItems, Mode=TwoWay}" 
+                  SelectionMode="Single" 
+                  SelectionUnit="FullRow"
+                  HeadersVisibility="All"
+                  AutoGenerateColumns="False" 
+                  CanUserAddRows="False" 
+                  CanUserDeleteRows="False" 
+                  CanUserResizeRows="False" 
+                  CanUserReorderColumns="True"
+                  VerticalAlignment="Stretch"
+                  HorizontalAlignment="Stretch"
+                  Margin="0" Loaded="DataGrid_Loaded">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Given Name" Binding="{Binding GivenName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/> 
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>
