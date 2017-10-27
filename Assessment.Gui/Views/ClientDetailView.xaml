@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="Assessment.Gui.Views.ClientDetailView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Assessment.Gui.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="250" Width="412.4">
+    <Grid Margin="0,0,10,0">
+        <Grid.InputBindings>
+            <MouseBinding Gesture="LeftDoubleClick"  Command="{Binding EditCommand}" CommandParameter=""></MouseBinding>
+        </Grid.InputBindings>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+        </Grid.RowDefinitions>
+        <!--Use a ViewBox for easy scaling of the font size.-->
+        <Viewbox Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left">
+            <TextBlock  TextAlignment="Right">Given Name</TextBlock>
+        </Viewbox>
+        <TextBox Grid.Column="0" Grid.Row="1"></TextBox>
+        <Viewbox Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left">
+            <TextBlock  TextAlignment="Right">Family Name</TextBlock>
+        </Viewbox>
+        <TextBox Grid.Column="0" Grid.Row="3"></TextBox>
+        <Viewbox Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left">
+            <TextBlock  TextAlignment="Right">Gender</TextBlock>
+        </Viewbox>
+        <ComboBox Grid.Column="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Height="20" Grid.Row="5" VerticalAlignment="Top" Width="300"/>
+        <Viewbox Grid.Column="0" Grid.Row="6" HorizontalAlignment="Left">
+            <TextBlock  TextAlignment="Right">Date of Birth</TextBlock>
+        </Viewbox>
+        <DatePicker Grid.Column="0" Grid.Row="6"></DatePicker>
+        
+    </Grid>
+</UserControl>
+

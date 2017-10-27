@@ -53,7 +53,7 @@ namespace Assessment.Gui.Services
                     ////client.Gender = Gender.FromCode(reader.GetChar(3));
                     client.DateOfBirth = (DateTime)reader["DateOfBirth"];
                     client.FamilyName = reader["FamilyName"].ToString();
-                    client.GenderId = Convert.ToChar(reader["GenderCode"]);
+                    client.GenderCode = Convert.ToChar(reader["GenderCode"]);
                     client.GivenName = reader["GivenName"].ToString();
                     ret.Add(client);
                 }

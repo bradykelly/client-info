@@ -17,7 +17,7 @@ namespace Assessment.Dto
 
         public Gender Gender { get; set; }
 
-        public int GenderId { get; set; }
+        public char GenderCode { get; set; }
 
         public DateTime DateOfBirth { get; set; }
 

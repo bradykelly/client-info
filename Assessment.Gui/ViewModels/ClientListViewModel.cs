@@ -41,7 +41,5 @@ namespace Assessment.Gui.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-
     }
 }

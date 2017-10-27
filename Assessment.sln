@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assessment.Api", "Assessment.Api\Assessment.Api.csproj", "{1BE56535-C33C-4311-A8F2-956E7EEC7C28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Assessment.Api", "Assessment.Api\Assessment.Api.csproj", "{1BE56535-C33C-4311-A8F2-956E7EEC7C28}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assessment.Gui", "Assessment.Gui\Assessment.Gui.csproj", "{94C00F18-190D-4888-A055-E2ECBB20B95C}"
 EndProject

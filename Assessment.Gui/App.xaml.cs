@@ -17,16 +17,5 @@ namespace Assessment.Gui
     /// </summary>
     public partial class App : Application
     {
-        ClientService _clientService = new ClientService();
-
-        public App()
-        {
-            ////var model = new ClientListViewModel();
-            ////model.Read();
-
-            ////var window = new MainWindow();
-            ////window.DataContext = model;
-            ////window.Show();
-        }
     }
 }

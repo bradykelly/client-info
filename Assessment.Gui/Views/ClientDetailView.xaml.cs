@@ -16,13 +16,13 @@ using System.Windows.Shapes;
 namespace Assessment.Gui.Views
 {
     /// <summary>
-    /// Interaction logic for ClientListView.xaml
+    /// Interaction logic for ClientDetailView.xaml
     /// </summary>
-    public partial class ClientListView : UserControl
+    public partial class ClientDetailView : UserControl
     {
-        public ClientListView()
+        public ClientDetailView()
         {
             InitializeComponent();
-        }        
+        }
     }
 }

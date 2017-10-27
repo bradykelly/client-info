@@ -8,18 +8,20 @@
              DataContext="ClientListViewModel"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300*"/>
+        </Grid.ColumnDefinitions>
         <DataGrid                 
-                AutoGenerateColumns="False"
+                AutoGenerateColumns="True"
                 CanUserAddRows="False"
                 CanUserReorderColumns="True"
                 CanUserResizeColumns="True"
-                DataContext="ClientListViewModel"
-                ItemsSource="{Binding Source=RowItems}">
+                ItemsSource="{Binding RowItems}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Given Name" Binding="{Binding GivenName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Family Name" Binding="{Binding FamilyName}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Gender" Binding="{Binding Gender}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Date of Birth" Binding="{Binding DateOfBirth}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Family Name" Binding="{Binding FamilyName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Gender" Binding="{Binding Gender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Date of Birth" Binding="{Binding DateOfBirth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

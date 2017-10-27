@@ -14,7 +14,7 @@ namespace Assessment.Gui.ViewModels
         // NB Not required. Some people only have one name.
         public string FamilyName { get; set; }
 
-        public int? GenderId { get; set; }
+        public char? GenderCode { get; set; }
 
         public DateTime DateOfBirth { get; set; }
 
@@ -36,9 +36,10 @@ namespace Assessment.Gui.ViewModels
             {
                 DateOfBirth = dto.DateOfBirth,
                 FamilyName = dto.FamilyName,
-                GenderId = dto.GenderId,
+                GenderCode = dto.GenderCode,
                 GivenName = dto.GivenName,
                 CellPhone = dto.Contacts.SingleOrDefault(c => c.ContactType == PhoneTypeCell)
+                // NB Other contacts.
             };
 
             model.PhysicalAddress = dto.Addresses.SingleOrDefault(c => c.AddressType == PhysicalAddressType);
