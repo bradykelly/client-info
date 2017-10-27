@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Assessment.Gui.Services;
 
 namespace Assessment.Gui.Views
 {
@@ -20,14 +21,16 @@ namespace Assessment.Gui.Views
     /// </summary>
     public partial class ClientListAlt : UserControl
     {
+        private ClientService _clients;
+
         public ClientListAlt()
         {
             InitializeComponent();
         }
 
-        private void DataGrid_Loaded()
+        private void DataGrid_Loaded(object sender, RoutedEventArgs e)
         {
-
+            ClientDataGrid.DataContext = ClientService.Read();
         }
     }
 }
