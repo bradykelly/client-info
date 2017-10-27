@@ -8,15 +8,15 @@ namespace Assessment.Gui.Services
     {
         public static int Create(Dto.Client client)
         {
-            using (var conn = new SqlConnection("data source=localhost;initial catalog=ClientInfo;Integrated Security = SSPI;"))
+            using (var conn = new SqlConnection("data source=localhost;initial catalog=ClientInfo;Integrated Security=SSPI;"))
             using (var cmdInsert = new SqlCommand("INSERT CLIENT (GivenName, FamilyName, Gender, DateOfBirth) VALUES(@givenName, @familyName, @gender, @DateOfBirth)"))
             {
                 conn.Open();
                 cmdInsert.CommandType = CommandType.Text;
                 cmdInsert.Connection = conn;
                 cmdInsert.Parameters.AddWithValue("@givenName", client.GivenName);
-                cmdInsert.Parameters.AddWithValue("@familyName", client.GivenName);
-                cmdInsert.Parameters.AddWithValue("@Gender", client.GenderId);
+                cmdInsert.Parameters.AddWithValue("@familyName", client.FamilyName);
+                cmdInsert.Parameters.AddWithValue("@Gender", client.Gender.Code);
                 // NB Make explicit date type for sql.
                 cmdInsert.Parameters.AddWithValue("@DateOfBirth", client.DateOfBirth);
                 cmdInsert.ExecuteNonQuery();
@@ -25,7 +25,8 @@ namespace Assessment.Gui.Services
                 {
                     cmdIdentity.CommandType = CommandType.Text;
                     cmdIdentity.Connection = conn;
-                    return (int)cmdIdentity.ExecuteScalar();
+                    var id = cmdIdentity.ExecuteScalar();
+                    return (int)id;
                 }
             }
         }

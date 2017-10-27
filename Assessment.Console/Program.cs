@@ -15,7 +15,7 @@ namespace Assessment.Console
             var clients = BuildDummyData();
             foreach (var c in clients)
             {
-                ClientService.Create(c);
+                var xxx = ClientService.Create(c);
             }
         }
 
