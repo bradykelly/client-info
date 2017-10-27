@@ -73,6 +73,9 @@
     <Compile Include="Views\ClientDetailView.xaml.cs">
       <DependentUpon>ClientDetailView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ClientListAlt.xaml.cs">
+      <DependentUpon>ClientListAlt.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ClientListView.xaml.cs">
       <DependentUpon>ClientListView.xaml</DependentUpon>
     </Compile>
@@ -89,6 +92,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\ClientDetailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ClientListAlt.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
