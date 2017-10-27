@@ -30,7 +30,7 @@ namespace Assessment.Gui.ViewModels
 
         public List<Address> OtherAddresses { get; } = new List<Address>();        
 
-        public static ClientViewModel FromDataModel(Dto.Client dto)
+        public static ClientViewModel FromDataModel(Client dto)
         {
             var model = new ClientViewModel
             {

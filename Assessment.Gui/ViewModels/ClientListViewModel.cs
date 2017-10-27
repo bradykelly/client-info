@@ -16,7 +16,7 @@ using Assessment.Gui.Services;
 namespace Assessment.Gui.ViewModels
 {
     // NB Replace list with something.
-    public class ClientListViewModel: List<Client>, INotifyPropertyChanged
+    public class ClientListViewModel: INotifyPropertyChanged
     {
         public List<ClientViewModel> RowItems { get; set; } = new List<ClientViewModel>();
 

@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Assessment.Gui.ViewModels;
+using Assessment.Gui.Views;
 
 namespace Assessment.Gui
 {
@@ -23,6 +25,16 @@ namespace Assessment.Gui
         public MainWindow()
         {
             InitializeComponent();
+            InitializeListView();
+        }
+
+        private void InitializeListView()
+        {
+            var model = new ClientListViewModel();
+            model.Read();
+            var view = new ClientListView();
+            view.DataContext = model;
+            Content = view;
         }
     }
 }

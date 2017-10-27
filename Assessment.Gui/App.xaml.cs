@@ -21,12 +21,12 @@ namespace Assessment.Gui
 
         public App()
         {
-            var model = new ClientListViewModel();
-            model.Read();
+            ////var model = new ClientListViewModel();
+            ////model.Read();
 
-            var window = new MainWindow();
-            window.DataContext = model;
-            window.Show();
+            ////var window = new MainWindow();
+            ////window.DataContext = model;
+            ////window.Show();
         }
     }
 }

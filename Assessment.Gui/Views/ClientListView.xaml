@@ -8,12 +8,15 @@
              DataContext="ClientListViewModel"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <DataGrid 
+        <DataGrid                 
                 AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                CanUserReorderColumns="True"
+                CanUserResizeColumns="True"
                 DataContext="ClientListViewModel"
                 ItemsSource="{Binding Source=RowItems}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Given Name" Binding="{Binding GivenName}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Given Name" Binding="{Binding GivenName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Family Name" Binding="{Binding FamilyName}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Gender" Binding="{Binding Gender}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Date of Birth" Binding="{Binding DateOfBirth}"></DataGridTextColumn>
