@@ -14,7 +14,7 @@ namespace Assessment.Gui.ViewModels
         // NB Not required. Some people only have one name.
         public string FamilyName { get; set; }
 
-        public char? GenderCode { get; set; }
+        public int? GenderCode { get; set; }
 
         public DateTime DateOfBirth { get; set; }
 

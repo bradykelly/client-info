@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using Assessment.Dto;
@@ -9,7 +10,7 @@ namespace Assessment.Gui.Services
     public class ClientService
     {
         // NB Unique key for Client.
-        public int Create(Dto.Client client)
+        public int Create(Client client)
         {
             using (var conn = new SqlConnection("data source=localhost;initial catalog=ClientInfo;Integrated Security=SSPI;"))
             using (var cmdInsert = new SqlCommand("INSERT CLIENT (GivenName, FamilyName, GenderCode, DateOfBirth) VALUES(@givenName, @familyName, @gender, @DateOfBirth)", conn))
@@ -18,8 +19,6 @@ namespace Assessment.Gui.Services
                 cmdInsert.CommandType = CommandType.Text;
                 cmdInsert.Parameters.AddWithValue("@givenName", client.GivenName);
                 cmdInsert.Parameters.AddWithValue("@familyName", client.FamilyName);
-                // NB Not pulling through.
-                cmdInsert.Parameters.AddWithValue("@Gender", client.Gender.Code);
                 // NB Make explicit date type for sql.
                 cmdInsert.Parameters.AddWithValue("@DateOfBirth", client.DateOfBirth);
                 cmdInsert.ExecuteNonQuery();
@@ -96,6 +95,16 @@ namespace Assessment.Gui.Services
                 }
             };
             return ret;
+        }
+
+        public static void InsertDummyData()
+        {
+            using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Default Connection"].ConnectionString))
+            using (var cmd = new SqlCommand("INSERT Client (GenderId, FamilyName, GivenName, DateOfBirth VALUES (@genderId, @familyName, @givenName, @dateOfBirth)", conn))
+            {
+                conn.Open();
+                cmd.Parameters.AddWithValue("@genderId", Gender)
+            }
         }
     }
 }

@@ -10,6 +10,9 @@ using Assessment.Dto.Base;
 
 namespace Assessment.Dto
 {
+    /// <summary>
+    /// Represents the client of a business or person.
+    /// </summary>
     public class Client: BaseEntity
     {
         public string GivenName { get; set; }
@@ -26,6 +29,13 @@ namespace Assessment.Dto
 
         public List<Contact> Contacts { get; } = new List<Contact>();
 
+        /// <summary>
+        /// Maps column values from a<see cref="SqlDataReader"/> object to properties of a <see cref="Client"/>. />
+        /// </summary>
+        /// <param name="reader">The <see cref="SqlDataReader"/> to map values from.</param>
+        /// <remarks>
+        /// I deemed it ideal to place this method in this class, because the class is aware of cast requirements.
+        /// </remarks>
         public void ReadDataReader(SqlDataReader reader)
         {
             GivenName = reader["GivenName"].ToString();

@@ -13,10 +13,10 @@ namespace Assessment.Web.ViewModels
 
         public void Read()
         {
-            var items = ClientService.BuildDummyData().ToList();
+            var items = _clients.BuildDummyData().ToList();
             var models = items.Select(m => ClientViewModel.FromDataModel((Dto.Client)m));
 
-            Items = models;
+            Items = models.ToList();
         }
     }
 }
