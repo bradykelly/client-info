@@ -36,7 +36,7 @@ namespace Assessment.Gui.ViewModels
             {
                 DateOfBirth = dto.DateOfBirth,
                 FamilyName = dto.FamilyName,
-                GenderCode = dto.GenderCode,
+                GenderCode = dto.GenderId,
                 GivenName = dto.GivenName,
                 CellPhone = dto.Contacts.SingleOrDefault(c => c.ContactType == PhoneTypeCell)
                 // NB Other contacts.

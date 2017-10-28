@@ -21,7 +21,7 @@ namespace Assessment.Gui.Views
     /// </summary>
     public partial class ClientListAlt : UserControl
     {
-        private ClientService _clients;
+        private ClientService _clients = new ClientService();
 
         public ClientListAlt()
         {
@@ -30,7 +30,7 @@ namespace Assessment.Gui.Views
 
         private void DataGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            ClientDataGrid.DataContext = ClientService.Read();
+            ClientDataGrid.DataContext = _clients.Read();
         }
     }
 }

@@ -18,6 +18,8 @@ namespace Assessment.Gui.ViewModels
     // NB Replace list with something.
     public class ClientListViewModel: INotifyPropertyChanged
     {
+        private readonly ClientService _clients = new ClientService();
+
         public List<ClientViewModel> RowItems { get; set; } = new List<ClientViewModel>();
 
         public EditCommand EditCommand { get; set; }
@@ -26,7 +28,7 @@ namespace Assessment.Gui.ViewModels
 
         public void Read()
         {
-            var clients = ClientService.Read();
+            var clients = _clients.Read();
             foreach (var client in clients)
             {
                 var model = ClientViewModel.FromDataModel(client);

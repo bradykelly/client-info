@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using Assessment.Dto;
-using Assessment.Gui.ViewModels;
 
 namespace Assessment.Gui.Services
 {
     public class ClientService
     {
         // NB Unique key for Client.
-        public static int Create(Dto.Client client)
+        public int Create(Dto.Client client)
         {
             using (var conn = new SqlConnection("data source=localhost;initial catalog=ClientInfo;Integrated Security=SSPI;"))
             using (var cmdInsert = new SqlCommand("INSERT CLIENT (GivenName, FamilyName, GenderCode, DateOfBirth) VALUES(@givenName, @familyName, @gender, @DateOfBirth)", conn))
@@ -36,7 +35,7 @@ namespace Assessment.Gui.Services
             }
         }
 
-        public static IEnumerable<Client> Read()
+        public IEnumerable<Client> Read()
         {
             using (var conn = new SqlConnection("data source=localhost;initial catalog=ClientInfo;Integrated Security=SSPI;"))
             using (var cmdRead = new SqlCommand("SELECT * FROM Client", conn))
@@ -53,7 +52,7 @@ namespace Assessment.Gui.Services
                     ////client.Gender = Gender.FromCode(reader.GetChar(3));
                     client.DateOfBirth = (DateTime)reader["DateOfBirth"];
                     client.FamilyName = reader["FamilyName"].ToString();
-                    client.GenderCode = Convert.ToChar(reader["GenderCode"]);
+                    client.GenderId = Convert.ToChar(reader["GenderCode"]);
                     client.GivenName = reader["GivenName"].ToString();
                     ret.Add(client);
                 }

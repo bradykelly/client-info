@@ -131,11 +131,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Assessment.Dto\Assessment.Dto.csproj">
-      <Project>{f57295e5-81d4-4beb-9661-74732ebca87e}</Project>
-      <Name>Assessment.Dto</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <Import Project="..\Assessment.Shared\Assessment.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -25,6 +25,11 @@ namespace Assessment.Gui
         public MainWindow()
         {
             InitializeComponent();
+            Loaded += MainWindowLoaded;
+        }
+
+        private void MainWindowLoaded(object sender, RoutedEventArgs e)
+        {
             InitializeListView();
         }
 
@@ -32,9 +37,10 @@ namespace Assessment.Gui
         {
             var model = new ClientListViewModel();
             model.Read();
-            var view = new ClientListView();
+            var view = new ClientListAlt();
             view.DataContext = model;
             Content = view;
         }
+
     }
 }

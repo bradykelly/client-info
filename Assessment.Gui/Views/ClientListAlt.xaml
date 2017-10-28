@@ -13,7 +13,7 @@
                   SelectionMode="Single" 
                   SelectionUnit="FullRow"
                   HeadersVisibility="All"
-                  AutoGenerateColumns="False" 
+                  AutoGenerateColumns="True" 
                   CanUserAddRows="False" 
                   CanUserDeleteRows="False" 
                   CanUserResizeRows="False" 
