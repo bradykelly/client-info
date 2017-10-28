@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Assessment.Dto;
 
 namespace Assessment.Web.Services
 {

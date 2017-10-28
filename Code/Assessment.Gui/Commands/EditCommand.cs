@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using Assessment.Gui.ViewModels;
-using Assessment.Dto;
+using Assessment.Web;
 
 namespace Assessment.Gui.Commands
 {

@@ -6,7 +6,6 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using Assessment.Dto;
 using Assessment.Gui.Services;
 using Assessment.Gui.ViewModels;
 

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using Assessment.Dto;
+using System.Linq;
+using Assessment.Gui.Models;
+using Assessment.Web;
 
 namespace Assessment.Gui.Services
 {
@@ -67,30 +69,30 @@ namespace Assessment.Gui.Services
             {
                 new Client
                 {
-                    Gender = new Gender('F', "Female"),
+                    Gender = ClientModel.GenderModels.Single(g => g.Id == (int)GendersEnum.Female),
                     FamilyName = "Smith",
                     GivenName = "Roger",
                     DateOfBirth = new DateTime(1980, 4, 16)
                 },
                 new Client
                 {
-                    Gender = new Gender('F', "Female"),
+                    Gender = ClientModel.GenderModels.Single(g => g.Id == (int)GendersEnum.Female),
                     FamilyName = "Smith",
                     GivenName = "Jane",
                     DateOfBirth = new DateTime(2000, 8, 6)
                 },
                 new Client
                 {
-                    Gender = new Gender('M', "Male"),
+                    Gender = ClientModel.GenderModels.Single(g => g.Id == (int)GendersEnum.Withheld),
                     FamilyName = "Gotham",
-                    GivenName = "Cindy",
+                    GivenName = "Logan",
                     DateOfBirth = new DateTime(2010, 3, 2)
                 },
                 new Client
                 {
-                    Gender = new Gender('M', "Male"),
+                    Gender = ClientModel.GenderModels.Single(g => g.Id == (int)GendersEnum.Male),
                     FamilyName = "Andrews",
-                    GivenName = "Jeanette",
+                    GivenName = "Phillip",
                     DateOfBirth = new DateTime(2019, 7, 6)
                 }
             };
@@ -103,7 +105,7 @@ namespace Assessment.Gui.Services
             using (var cmd = new SqlCommand("INSERT Client (GenderId, FamilyName, GivenName, DateOfBirth VALUES (@genderId, @familyName, @givenName, @dateOfBirth)", conn))
             {
                 conn.Open();
-                cmd.Parameters.AddWithValue("@genderId", Gender)
+                ////cmd.Parameters.AddWithValue("@genderId", this)
             }
         }
     }

@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using Assessment.Dto;
-
-using Client = Assessment.Dto.Client;
+using System.Linq;
+using Assessment.Gui.Models;
+using Assessment.Web.Models;
+using Client = Assessment.Web.Client;
 
 namespace Assessment.Web.Services
 {
@@ -70,7 +71,7 @@ namespace Assessment.Web.Services
             {
                 new Client
                 {
-                    Gender = new Gender('F', "Female"),
+                    Gender =  ClientModel.GenderModels.Single(g => g.Id == (int)Genders.Female),
                     FamilyName = "Smith",
                     GivenName = "Roger",
                     DateOfBirth = new DateTime(1980, 4, 16)

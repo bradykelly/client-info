@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Assessment.Dto;
 using Assessment.Dto.Base;
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 
-namespace Assessment.Dto
+namespace Assessment.Web
 {
     /// <summary>
     /// Represents the client of a business or person.
@@ -19,7 +15,7 @@ namespace Assessment.Dto
 
         public string FamilyName { get; set; }
 
-        public Gender Gender { get; set; }
+        public Gender Gender { get; set; } = new Gender();
 
         public int GenderId { get; set; }
 

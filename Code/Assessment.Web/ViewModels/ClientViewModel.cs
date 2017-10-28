@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Assessment.Dto;
 using Assessment.Web.ViewModels.Base;
 
 namespace Assessment.Web.ViewModels

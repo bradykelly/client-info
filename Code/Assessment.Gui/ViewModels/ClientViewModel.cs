@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Assessment.Dto;
 using Assessment.Gui.ViewModels.Base;
+using Assessment.Web;
+using Assessment.Dto;
 
 namespace Assessment.Gui.ViewModels
 {
@@ -38,11 +39,10 @@ namespace Assessment.Gui.ViewModels
                 FamilyName = dto.FamilyName,
                 GenderCode = dto.GenderId,
                 GivenName = dto.GivenName,
-                CellPhone = dto.Contacts.SingleOrDefault(c => c.ContactType == PhoneTypeCell)
-                // NB Other contacts.
+                // NB Contacts.
             };
 
-            model.PhysicalAddress = dto.Addresses.SingleOrDefault(c => c.AddressType == PhysicalAddressType);
+            ////model.PhysicalAddress = dto.Addresses.SingleOrDefault(c => c.AddressType == PhysicalAddressType);
 
             return model;
         }
