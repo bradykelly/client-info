@@ -14,10 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Assessment.Dto\Assessment.Dto.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Data\" />
   </ItemGroup>
 

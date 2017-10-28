@@ -42,7 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Address.cs" />
-    <Compile Include="Base\BaseEntity.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="Gender.cs" />

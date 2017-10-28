@@ -12,20 +12,18 @@ namespace Assessment.Web.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Clients");
         }
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
-
+            ViewData["Message"] = "Built by developer Brady Kelly, who has close on 20 years experience.";
             return View();
         }
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
-
+            ViewData["Message"] = "My mail address is brady@bradykelly.net. I'm plain 'bradykelly' on twitter.";
             return View();
         }
 
