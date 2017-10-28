@@ -18,6 +18,7 @@ namespace Assessment.Web
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            ClientModel = new ClientModel(configuration);
         }
 
         public static ClientModel ClientModel { get; set; } 
@@ -30,7 +31,7 @@ namespace Assessment.Web
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc();
-            services.AddTransient<IClientCrudService, ClientCrudService>();
+            services.AddTransient<IClientDataClient, ClientService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -11,11 +11,11 @@ namespace Assessment.Web.ViewModels
         public MainViewModel(IConfiguration configuration)
         {
             _config = configuration;
-            _clients = new ClientCrudService(_config);
+            _clients = new ClientService();
         }
 
         private IConfiguration _config;
-        private ClientCrudService _clients;
+        private ClientService _clients;
 
         public List<ClientViewModel> Items { get; set; } = new List<ClientViewModel>();
 

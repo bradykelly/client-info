@@ -20,9 +20,9 @@ namespace Assessment.Web.Controllers
     {
         private readonly IConfiguration _config;
         private readonly AppDbContext _context;
-        private readonly IClientCrudService _clients;
+        private readonly IClientDataClient _clients;
 
-        public ClientsController(AppDbContext context, IClientCrudService clientService, IConfiguration config)
+        public ClientsController(AppDbContext context, IClientDataClient clientService, IConfiguration config)
         {
             _context = context;
             _config = config;
@@ -32,7 +32,6 @@ namespace Assessment.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var ret = new List<ClientViewModel>();
             var models = new List<ClientViewModel>();
 
             var rawClients = await _clients.ReadAsync();

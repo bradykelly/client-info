@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Assessment.Dto;
-using Assessment.Gui.Services;
-using Assessment.Gui.ViewModels;
+using Nito.AsyncEx;
 
 namespace Assessment.Console
 {
@@ -13,8 +13,14 @@ namespace Assessment.Console
     {
         static void Main(string[] args)
         {
-            var model = new ClientListViewModel();
-            model.Read();
+            AsyncContext.Run(() => MainAsync(args));
+        }
+
+        static void MainAsync(string[] args)
+        {
+            var client = new HttpClient();
+
+            
         }
     }
 }

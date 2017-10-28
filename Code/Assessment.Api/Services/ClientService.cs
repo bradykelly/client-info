@@ -4,14 +4,13 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using Assessment.Web;
-using Assessment.Web.Services;
 using Microsoft.Extensions.Configuration;
 
 namespace Assessment.Api.Services
 {
-    public class ClientCrudService : IClientCrudService
+    public class DataService : IDataService
     {
-        public ClientCrudService(IConfiguration config)
+        public DataService(IConfiguration config)
         {
             _config = config;
             _connString = config.GetConnectionString("DefaultConnection");
