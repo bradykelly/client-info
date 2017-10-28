@@ -20,9 +20,9 @@ namespace Assessment.Web.Controllers
     {
         private readonly IConfiguration _config;
         private readonly AppDbContext _context;
-        private readonly IClientDataClient _clients;
+        private readonly IDataClient _clients;
 
-        public ClientsController(AppDbContext context, IClientDataClient clientService, IConfiguration config)
+        public ClientsController(AppDbContext context, IDataClient clientService, IConfiguration config)
         {
             _context = context;
             _config = config;

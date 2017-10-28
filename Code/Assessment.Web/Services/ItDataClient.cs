@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Assessment.Web.Services
 {
-    public interface IClientDataClient
+    public interface IDataClient
     {
         // NB catch up with implementation.
         Task CreateAsync(Client client);

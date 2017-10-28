@@ -19,6 +19,7 @@ namespace Assessment.Api.Controllers
         }
 
     [HttpGet]
+    [Route("Get")]
     public async Task<IEnumerable<Client>> Get()
     {
         // API side.

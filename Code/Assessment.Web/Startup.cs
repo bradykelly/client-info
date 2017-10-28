@@ -31,7 +31,7 @@ namespace Assessment.Web
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc();
-            services.AddTransient<IClientDataClient, ClientService>();
+            services.AddTransient<IDataClient, DataClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

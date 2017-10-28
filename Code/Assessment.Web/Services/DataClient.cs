@@ -15,8 +15,12 @@ using Newtonsoft.Json;
 
 namespace Assessment.Web.Services
 {
-    public class ClientDataClient : IClientDataClient
+    public class DataClient : IDataClient
     {
+        public DataClient()
+        {
+            Client.DefaultRequestHeaders.Add("Accept", new []{ "application/json", "text/javascript" });
+        }
         private static readonly HttpClient Client = new HttpClient {BaseAddress = new Uri("http://localhost:63675/") };
         
         public async Task CreateAsync(Client client)
