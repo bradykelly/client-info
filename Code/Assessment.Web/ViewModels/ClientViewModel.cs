@@ -22,7 +22,7 @@ namespace Assessment.Web.ViewModels
         [Display(Name = "Given Name")]
         public string GivenName { get; set; }
 
-        // NB Not required. Some people only have one name.
+        // Not required. Some people only have one name.
         [Display(Name = "Family Name")]
         public string FamilyName { get; set; }
 

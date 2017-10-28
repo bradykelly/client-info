@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,6 +11,7 @@ using Assessment.Web.Data;
 using Assessment.Web.Models;
 using Assessment.Web.Services;
 using Assessment.Web.ViewModels;
+using Assessment.Web.ViewModels.Base;
 using Microsoft.Extensions.Configuration;
 
 namespace Assessment.Web.Controllers
@@ -43,21 +46,16 @@ namespace Assessment.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
+            var client = await _context.Clients.SingleOrDefaultAsync(m => m.Id == id);
+            if (client == null)
             {
                 return NotFound();
             }
+            var model = ClientViewModel.FromDto(client);
 
-            var clientViewModel = await _context.Clients
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (clientViewModel == null)
-            {
-                return NotFound();
-            }
-
-            return View();
+            return View(model);
         }
 
         // GET: ClientViewModels/Create
@@ -100,6 +98,29 @@ namespace Assessment.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([Bind("GivenName,FamilyName,GenderId,DateOfBirth,Id")] ClientViewModel model)
         {
+            // Can't rely on client side validations only.
+            if (string.IsNullOrWhiteSpace(model.GivenName))
+            {
+                ModelState.AddModelError(nameof(model.GivenName), $"{nameof(model.GivenName)} is required.");
+            }
+            if (string.IsNullOrWhiteSpace(model.FamilyName))
+            {
+                ModelState.AddModelError(nameof(model.FamilyName), $"{nameof(model.FamilyName)} is required.");
+            }
+            if (!model.GenderId.HasValue)
+            {
+                ModelState.AddModelError(nameof(model.GenderId), $"{nameof(model.GenderId)} is required.");
+            }
+            if (string.IsNullOrWhiteSpace(model.DateOfBirth))
+            {
+                ModelState.AddModelError(nameof(model.DateOfBirth), $"{nameof(model.DateOfBirth)} is required.");
+            }
+            if (!DateTime.TryParseExact(model.DateOfBirth, BaseViewModel.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out var check))
+            {
+                ModelState.AddModelError(nameof(model.DateOfBirth), $"Must be of the format {BaseViewModel.DateFormat}");
+            }
+
+            // Now we're working with a ModelState with extra errors from the above validation.
             if (ModelState.IsValid)
             {
                 try
