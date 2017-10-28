@@ -63,7 +63,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Models\Genders.cs" />
+    <Compile Include="Models\GendersEnum.cs" />
     <Compile Include="Models\ClientModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Services\ClientService.cs" />

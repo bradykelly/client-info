@@ -53,7 +53,7 @@ namespace Assessment.Gui.Services
                     ////client.Gender = Gender.FromCode(reader.GetChar(3));
                     client.DateOfBirth = (DateTime)reader["DateOfBirth"];
                     client.FamilyName = reader["FamilyName"].ToString();
-                    client.GenderId = Convert.ToChar(reader["GenderCode"]);
+                    client.GenderId = Convert.ToChar(reader["GenderId"]);
                     client.GivenName = reader["GivenName"].ToString();
                     ret.Add(client);
                 }
@@ -69,43 +69,57 @@ namespace Assessment.Gui.Services
             {
                 new Client
                 {
-                    Gender = ClientModel.GenderModels.Single(g => g.Id == (int)GendersEnum.Female),
+                    Gender = ClientModel.Genders.Single(g => g.Id == (int)GendersEnum.Female),
                     FamilyName = "Smith",
                     GivenName = "Roger",
                     DateOfBirth = new DateTime(1980, 4, 16)
                 },
                 new Client
                 {
-                    Gender = ClientModel.GenderModels.Single(g => g.Id == (int)GendersEnum.Female),
+                    Gender = ClientModel.Genders.Single(g => g.Id == (int)GendersEnum.Female),
                     FamilyName = "Smith",
                     GivenName = "Jane",
                     DateOfBirth = new DateTime(2000, 8, 6)
                 },
                 new Client
                 {
-                    Gender = ClientModel.GenderModels.Single(g => g.Id == (int)GendersEnum.Withheld),
+                    Gender = ClientModel.Genders.Single(g => g.Id == (int)GendersEnum.Withheld),
                     FamilyName = "Gotham",
                     GivenName = "Logan",
                     DateOfBirth = new DateTime(2010, 3, 2)
                 },
                 new Client
                 {
-                    Gender = ClientModel.GenderModels.Single(g => g.Id == (int)GendersEnum.Male),
+                    Gender = ClientModel.Genders.Single(g => g.Id == (int)GendersEnum.Male),
                     FamilyName = "Andrews",
                     GivenName = "Phillip",
                     DateOfBirth = new DateTime(2019, 7, 6)
                 }
             };
+            ret.ForEach(c => c.GenderId = c.Gender.Id);
             return ret;
         }
 
         public static void InsertDummyData()
         {
-            using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Default Connection"].ConnectionString))
-            using (var cmd = new SqlCommand("INSERT Client (GenderId, FamilyName, GivenName, DateOfBirth VALUES (@genderId, @familyName, @givenName, @dateOfBirth)", conn))
+            using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            using (var cmd = new SqlCommand("INSERT Client (GenderId, FamilyName, GivenName, DateOfBirth) VALUES (@genderId, @familyName, @givenName, @dateOfBirth)", conn))
             {
                 conn.Open();
-                ////cmd.Parameters.AddWithValue("@genderId", this)
+
+                cmd.Parameters.Add(new SqlParameter("@genderid", SqlDbType.Int));
+                cmd.Parameters.Add(new SqlParameter("@familyName", SqlDbType.NVarChar));
+                cmd.Parameters.Add(new SqlParameter("@givenName", SqlDbType.NVarChar));
+                cmd.Parameters.Add(new SqlParameter("@dateOfBirth", SqlDbType.DateTime2));
+
+                foreach (var dummy in BuildDummyData())
+                {
+                    cmd.Parameters["@genderid"].Value = dummy.GenderId;
+                    cmd.Parameters["@familyName"].Value = dummy.FamilyName;
+                    cmd.Parameters["@givenName"].Value = dummy.GivenName;
+                    cmd.Parameters["@dateOfBirth"].Value = dummy.DateOfBirth;
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
     }

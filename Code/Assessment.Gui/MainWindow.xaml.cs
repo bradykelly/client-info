@@ -41,6 +41,5 @@ namespace Assessment.Gui
             view.DataContext = model;
             Content = view;
         }
-
     }
 }

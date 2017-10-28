@@ -12,9 +12,11 @@ namespace Assessment.Gui.Models
     // NB Naming???
     public class ClientModel
     {
-        public static List<Gender> GenderModels { get; set; }
+        private static readonly object LockObject = new object();
 
-        public void Populate()
+        public static List<Gender> Genders { get; } = new List<Gender>();
+
+        public static void Populate()
         {
             // NB Seeding.
 
@@ -24,13 +26,19 @@ namespace Assessment.Gui.Models
                 conn.Open();
                 var reader = cmd.ExecuteReader();
 
-                GenderModels.Clear();
-                var gender = new Gender
+                lock (LockObject)
                 {
-                    Id = reader.GetInt32(0),
-                    Name = reader.GetString(1)
-                };
-                GenderModels.Add(gender);
+                    Genders.Clear();
+                    while (reader.Read())
+                    {
+                        var gender = new Gender
+                        {
+                            Id = reader.GetInt32(0),
+                            Name = reader.GetString(1)
+                        };
+                        Genders.Add(gender);
+                    } 
+                }
             }
         }
     }
