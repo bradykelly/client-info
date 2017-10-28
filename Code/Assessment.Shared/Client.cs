@@ -2,6 +2,7 @@
 using Assessment.Dto.Base;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.SqlClient;
 
 namespace Assessment.Web
@@ -9,6 +10,7 @@ namespace Assessment.Web
     /// <summary>
     /// Represents the client of a business or person.
     /// </summary>
+    [Table(nameof(Client))]
     public class Client: BaseEntity
     {
         public string GivenName { get; set; }

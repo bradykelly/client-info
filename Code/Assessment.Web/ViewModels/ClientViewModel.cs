@@ -31,15 +31,13 @@ namespace Assessment.Web.ViewModels
 
         public static ClientViewModel FromDataModel(Client dto)
         {
-            var model = new ClientViewModel
-            {
-                DateOfBirth = dto.DateOfBirth,
-                FamilyName = dto.FamilyName,
-                GenderId = dto.GenderId,
-                GivenName = dto.GivenName,
-                CellPhone = dto.Contacts.SingleOrDefault(c => c.ContactType == PhoneTypeCell)
-                // NB Other contacts.
-            };
+            var model = new ClientViewModel();
+            model.Id = dto.Id;
+            model.DateOfBirth = dto.DateOfBirth;
+            model.FamilyName = dto.FamilyName;
+            model.GenderId = dto.GenderId;
+            model.GivenName = dto.GivenName;
+            model.CellPhone = dto.Contacts.SingleOrDefault(c => c.ContactType == PhoneTypeCell);
 
             model.PhysicalAddress = dto.Addresses.SingleOrDefault(c => c.AddressType == AddressTypePhysical);
 

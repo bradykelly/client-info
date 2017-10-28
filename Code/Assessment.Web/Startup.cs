@@ -58,8 +58,8 @@ namespace Assessment.Web
             ClientModel = new ClientModel(Configuration);
             ClientModel.PopulateCore();
 
-            var dummies = new ClientCrudService(Configuration);
-            dummies.InsertDummyClients();
+            ////var dummies = new ClientCrudService(Configuration);
+            ////dummies.InsertDummyClients();
         }
     }
 }

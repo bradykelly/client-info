@@ -42,7 +42,7 @@ namespace Assessment.Web.Controllers
             return View(models);
         }
 
-        // GET: ClientViewModels/Details/5
+        [HttpGet]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -66,9 +66,6 @@ namespace Assessment.Web.Controllers
             return View();
         }
 
-        // POST: ClientViewModels/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("GivenName,FamilyName,GenderId,DateOfBirth,Id")] ClientViewModel clientViewModel)
@@ -82,30 +79,28 @@ namespace Assessment.Web.Controllers
             return View(clientViewModel);
         }
 
-        // GET: ClientViewModels/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
+            if (id == 0)
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
+            var client = await _context.Clients.SingleOrDefaultAsync(m => m.Id == id);
+            if (client == null)
             {
                 return NotFound();
             }
+            var model = ClientViewModel.FromDataModel(client);
 
-            var clientViewModel = await _context.Clients.SingleOrDefaultAsync(m => m.Id == id);
-            if (clientViewModel == null)
-            {
-                return NotFound();
-            }
-            return View(clientViewModel);
+            return View(model);
         }
 
-        // POST: ClientViewModels/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("GivenName,FamilyName,GenderId,DateOfBirth,Id")] ClientViewModel clientViewModel)
+        public async Task<IActionResult> Edit(int id, [Bind("GivenName,FamilyName,GenderId,DateOfBirth,Id")] ClientViewModel model)
         {
-            if (id != clientViewModel.Id)
+            if (id != model.Id)
             {
                 return NotFound();
             }
@@ -114,12 +109,12 @@ namespace Assessment.Web.Controllers
             {
                 try
                 {
-                    _context.Update(clientViewModel);
+                    _context.Update(model);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ClientExists(clientViewModel.Id))
+                    if (!ClientExists(model.Id))
                     {
                         return NotFound();
                     }
@@ -130,7 +125,7 @@ namespace Assessment.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(clientViewModel);
+            return View(model);
         }
 
         // GET: ClientViewModels/Delete/5

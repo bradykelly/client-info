@@ -58,13 +58,7 @@ namespace Assessment.Web.Services
                 var reader = cmdRead.ExecuteReader();
                 while (reader.Read())
                 {
-                    var client = new Client();
-                    // NB Uncomment and correct gender.
-                    ////client.Gender = Gender.FromCode(reader.GetChar(3));
-                    client.DateOfBirth = (DateTime)reader["DateOfBirth"];
-                    client.FamilyName = reader["FamilyName"].ToString();
-                    client.GenderId = Convert.ToChar(reader["GenderId"]);
-                    client.GivenName = reader["GivenName"].ToString();
+                    var client = BuildFromDataReader(reader);
                     ret.Add(client);
                 }
 
@@ -91,9 +85,29 @@ namespace Assessment.Web.Services
             }
         }
 
+        public async Task<Client> ReadAsync(int id)
+        {
+            using (var conn = new SqlConnection(_connString))
+            using (var cmdRead = new SqlCommand("SELECT * FROM Client WHERE Id = @id", conn))
+            {
+                conn.Open();
+                cmdRead.Parameters.AddWithValue("@id", id);
+                var reader = await cmdRead.ExecuteReaderAsync();
+
+                if (reader.Read())
+                {
+                    var client = BuildFromDataReader(reader);
+                    return client;
+                }
+
+                return null;
+            }
+        }
+
         private Client BuildFromDataReader(SqlDataReader reader)
         {
             var client = new Client();
+            client.Id = (int)reader["Id"];
             // NB Uncomment and correct gender.
             ////client.Gender = Gender.FromCode(reader.GetChar(3));
             client.DateOfBirth = (DateTime)reader["DateOfBirth"];
