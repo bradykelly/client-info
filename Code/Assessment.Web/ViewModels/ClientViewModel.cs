@@ -13,7 +13,7 @@ namespace Assessment.Web.ViewModels
         // NB Not required. Some people only have one name.
         public string FamilyName { get; set; }
 
-        public int? GenderCode { get; set; }
+        public int? GenderId { get; set; }
 
         public DateTime DateOfBirth { get; set; }
 
@@ -35,7 +35,7 @@ namespace Assessment.Web.ViewModels
             {
                 DateOfBirth = dto.DateOfBirth,
                 FamilyName = dto.FamilyName,
-                GenderCode = dto.GenderId,
+                GenderId = dto.GenderId,
                 GivenName = dto.GivenName,
                 CellPhone = dto.Contacts.SingleOrDefault(c => c.ContactType == PhoneTypeCell)
                 // NB Other contacts.

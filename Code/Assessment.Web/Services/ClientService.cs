@@ -7,25 +7,26 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Assessment.Dto;
 using Assessment.Web.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
 namespace Assessment.Web.Services
 {
-    public class ClientService : IClientService
+    public class ClientCrudService : IClientCrudService
     {
-        private string _connString;
-        public ClientService(IConfiguration config)
+        public ClientCrudService(IConfiguration config)
         {
             _config = config;
             _connString = config.GetConnectionString("DefaultConnection");
         }
 
+        private readonly string _connString;
         private IConfiguration _config;
 
         public int Create(Client client)
         {
             using (var conn = new SqlConnection(_connString))
-            using (var cmdInsert = new SqlCommand("INSERT CLIENT (GivenName, FamilyName, GenderCode, DateOfBirth) VALUES(@givenName, @familyName, @gender, @DateOfBirth)", conn))
+            using (var cmdInsert = new SqlCommand("INSERT CLIENT (GivenName, FamilyName, GenderId, DateOfBirth) VALUES(@givenName, @familyName, @gender, @DateOfBirth)", conn))
             {
                 conn.Open();
                 cmdInsert.CommandType = CommandType.Text;
@@ -62,7 +63,7 @@ namespace Assessment.Web.Services
                     ////client.Gender = Gender.FromCode(reader.GetChar(3));
                     client.DateOfBirth = (DateTime)reader["DateOfBirth"];
                     client.FamilyName = reader["FamilyName"].ToString();
-                    client.GenderId = Convert.ToChar(reader["GenderCode"]);
+                    client.GenderId = Convert.ToChar(reader["GenderId"]);
                     client.GivenName = reader["GivenName"].ToString();
                     ret.Add(client);
                 }
@@ -97,7 +98,7 @@ namespace Assessment.Web.Services
             ////client.Gender = Gender.FromCode(reader.GetChar(3));
             client.DateOfBirth = (DateTime)reader["DateOfBirth"];
             client.FamilyName = reader["FamilyName"].ToString();
-            client.GenderId = Convert.ToChar(reader["GenderCode"]);
+            client.GenderId = Convert.ToChar(reader["GenderId"]);
             client.GivenName = reader["GivenName"].ToString();
             return client;
         }
@@ -107,6 +108,7 @@ namespace Assessment.Web.Services
         {
             var ret = new List<Client>
             {
+
                 new Client
                 {
                     Gender =  ClientModel.GenderModels.Single(g => g.Id == (int)Genders.Male),

@@ -2,12 +2,20 @@
 using System.Linq;
 using Assessment.Web.Services;
 using Assessment.Web.ViewModels.Base;
+using Microsoft.Extensions.Configuration;
 
 namespace Assessment.Web.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        private ClientService _clients = new ClientService();
+        public MainViewModel(IConfiguration configuration)
+        {
+            _config = configuration;
+            _clients = new ClientCrudService(_config);
+        }
+
+        private IConfiguration _config;
+        private ClientCrudService _clients;
 
         public List<ClientViewModel> Items { get; set; } = new List<ClientViewModel>();
 

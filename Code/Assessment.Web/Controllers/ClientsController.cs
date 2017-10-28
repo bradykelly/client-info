@@ -17,13 +17,13 @@ namespace Assessment.Web.Controllers
     {
         private readonly IConfiguration _config;
         private readonly AppDbContext _context;
-        private readonly ClientService _clients;
+        private readonly IClientCrudService _clients;
 
-        public ClientsController(AppDbContext context, IConfiguration config)
+        public ClientsController(AppDbContext context, IClientCrudService clientService, IConfiguration config)
         {
             _context = context;
             _config = config;
-            _clients = new ClientService(config);
+            _clients = clientService;
         }
 
         [HttpGet]
@@ -50,14 +50,14 @@ namespace Assessment.Web.Controllers
                 return NotFound();
             }
 
-            var clientViewModel = await _context.ClientViewModel
+            var clientViewModel = await _context.Clients
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (clientViewModel == null)
             {
                 return NotFound();
             }
 
-            return View(clientViewModel);
+            return View();
         }
 
         // GET: ClientViewModels/Create
@@ -71,7 +71,7 @@ namespace Assessment.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("GivenName,FamilyName,GenderCode,DateOfBirth,Id")] ClientViewModel clientViewModel)
+        public async Task<IActionResult> Create([Bind("GivenName,FamilyName,GenderId,DateOfBirth,Id")] ClientViewModel clientViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +90,7 @@ namespace Assessment.Web.Controllers
                 return NotFound();
             }
 
-            var clientViewModel = await _context.ClientViewModel.SingleOrDefaultAsync(m => m.Id == id);
+            var clientViewModel = await _context.Clients.SingleOrDefaultAsync(m => m.Id == id);
             if (clientViewModel == null)
             {
                 return NotFound();
@@ -103,7 +103,7 @@ namespace Assessment.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("GivenName,FamilyName,GenderCode,DateOfBirth,Id")] ClientViewModel clientViewModel)
+        public async Task<IActionResult> Edit(int id, [Bind("GivenName,FamilyName,GenderId,DateOfBirth,Id")] ClientViewModel clientViewModel)
         {
             if (id != clientViewModel.Id)
             {
@@ -119,7 +119,7 @@ namespace Assessment.Web.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ClientViewModelExists(clientViewModel.Id))
+                    if (!ClientExists(clientViewModel.Id))
                     {
                         return NotFound();
                     }
@@ -141,7 +141,7 @@ namespace Assessment.Web.Controllers
                 return NotFound();
             }
 
-            var clientViewModel = await _context.ClientViewModel
+            var clientViewModel = await _context.Clients
                 .SingleOrDefaultAsync(m => m.Id == id);
             if (clientViewModel == null)
             {
@@ -156,15 +156,15 @@ namespace Assessment.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var clientViewModel = await _context.ClientViewModel.SingleOrDefaultAsync(m => m.Id == id);
-            _context.ClientViewModel.Remove(clientViewModel);
+            var clientViewModel = await _context.Clients.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Clients.Remove(clientViewModel);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ClientViewModelExists(int id)
+        private bool ClientExists(int id)
         {
-            return _context.ClientViewModel.Any(e => e.Id == id);
+            return _context.Clients.Any(e => e.Id == id);
         }
     }
 }

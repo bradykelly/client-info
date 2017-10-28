@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Assessment.Web.Data;
+using Assessment.Web.Models;
 using Assessment.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -19,7 +20,8 @@ namespace Assessment.Web
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        public static ClientModel ClientModel { get; set; } 
+        public static IConfiguration Configuration { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -28,7 +30,7 @@ namespace Assessment.Web
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc();
-            services.AddTransient<IClientService, ClientService>();
+            services.AddTransient<IClientCrudService, ClientCrudService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +54,12 @@ namespace Assessment.Web
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            ClientModel = new ClientModel(Configuration);
+            ClientModel.PopulateCore();
+
+            var dummies = new ClientCrudService(Configuration);
+            dummies.InsertDummyClients();
         }
     }
 }
