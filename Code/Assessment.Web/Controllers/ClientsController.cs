@@ -58,23 +58,41 @@ namespace Assessment.Web.Controllers
             return View(model);
         }
 
-        // GET: ClientViewModels/Create
+        [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            var client = new Client();
+            var model = ClientViewModel.FromDto(client);
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("GivenName,FamilyName,GenderId,DateOfBirth,Id")] ClientViewModel clientViewModel)
+        public async Task<IActionResult> Create([Bind("GivenName,FamilyName,GenderId,DateOfBirth,Id")] ClientViewModel model)
         {
+            ValidateClient(model);
+
             if (ModelState.IsValid)
             {
-                _context.Add(clientViewModel);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    var client = model.ToDto(model);
+                    client.Gender = null;
+                    _context.Clients.Add(client);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ClientExists(model.Id))
+                    {
+                        return NotFound();
+                    }
+                    throw;
+                }
                 return RedirectToAction(nameof(Index));
             }
-            return View(clientViewModel);
+
+            return View(model);
         }
 
         [HttpGet]
@@ -99,26 +117,7 @@ namespace Assessment.Web.Controllers
         public async Task<IActionResult> Edit([Bind("GivenName,FamilyName,GenderId,DateOfBirth,Id")] ClientViewModel model)
         {
             // Can't rely on client side validations only.
-            if (string.IsNullOrWhiteSpace(model.GivenName))
-            {
-                ModelState.AddModelError(nameof(model.GivenName), $"{nameof(model.GivenName)} is required.");
-            }
-            if (string.IsNullOrWhiteSpace(model.FamilyName))
-            {
-                ModelState.AddModelError(nameof(model.FamilyName), $"{nameof(model.FamilyName)} is required.");
-            }
-            if (!model.GenderId.HasValue)
-            {
-                ModelState.AddModelError(nameof(model.GenderId), $"{nameof(model.GenderId)} is required.");
-            }
-            if (string.IsNullOrWhiteSpace(model.DateOfBirth))
-            {
-                ModelState.AddModelError(nameof(model.DateOfBirth), $"{nameof(model.DateOfBirth)} is required.");
-            }
-            if (!DateTime.TryParseExact(model.DateOfBirth, BaseViewModel.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out var check))
-            {
-                ModelState.AddModelError(nameof(model.DateOfBirth), $"Must be of the format {BaseViewModel.DateFormat}");
-            }
+            ValidateClient(model);
 
             // Now we're working with a ModelState with extra errors from the above validation.
             if (ModelState.IsValid)
@@ -142,6 +141,30 @@ namespace Assessment.Web.Controllers
             }
 
             return View(model);
+        }
+
+        private void ValidateClient(ClientViewModel model)
+        {
+            if (string.IsNullOrWhiteSpace(model.GivenName))
+            {
+                ModelState.AddModelError(nameof(model.GivenName), $"{nameof(model.GivenName)} is required.");
+            }
+            if (string.IsNullOrWhiteSpace(model.FamilyName))
+            {
+                ModelState.AddModelError(nameof(model.FamilyName), $"{nameof(model.FamilyName)} is required.");
+            }
+            if (!model.GenderId.HasValue)
+            {
+                ModelState.AddModelError(nameof(model.GenderId), $"{nameof(model.GenderId)} is required.");
+            }
+            if (string.IsNullOrWhiteSpace(model.DateOfBirth))
+            {
+                ModelState.AddModelError(nameof(model.DateOfBirth), $"{nameof(model.DateOfBirth)} is required.");
+            }
+            if (!DateTime.TryParseExact(model.DateOfBirth, BaseViewModel.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out var check))
+            {
+                ModelState.AddModelError(nameof(model.DateOfBirth), $"Must be of the format {BaseViewModel.DateFormat}");
+            }
         }
 
         // GET: ClientViewModels/Delete/5

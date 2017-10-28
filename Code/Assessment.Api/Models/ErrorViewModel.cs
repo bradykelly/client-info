@@ -1,5 +1,3 @@
-using System;
-
 namespace Assessment.Api.Models
 {
     public class ErrorViewModel
