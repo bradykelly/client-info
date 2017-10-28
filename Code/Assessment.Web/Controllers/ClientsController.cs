@@ -136,14 +136,14 @@ namespace Assessment.Web.Controllers
                 return NotFound();
             }
 
-            var clientViewModel = await _context.Clients
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (clientViewModel == null)
+            var client = await _context.Clients.SingleOrDefaultAsync(m => m.Id == id);
+            if (client == null)
             {
                 return NotFound();
             }
+            var model = ClientViewModel.FromDataModel(client);
 
-            return View(clientViewModel);
+            return View(model);
         }
 
         // POST: ClientViewModels/Delete/5

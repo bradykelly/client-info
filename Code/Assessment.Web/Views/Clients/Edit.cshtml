@@ -3,7 +3,7 @@
     ViewData["Title"] = "Edit";
 }
 
-<h2>Edit Client</h2>
+<h3>Edit Client</h3>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -21,24 +21,23 @@
             </div>
             <div class="form-group">
                 <label asp-for="GenderId" class="control-label"></label>
-                <input asp-for="GenderId" class="form-control" />
+                <select asp-for="GenderId" asp-items="Model.GendersList" class="form-control"></select>
                 <span asp-validation-for="GenderId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DateOfBirth" class="control-label"></label>
-                <input asp-for="DateOfBirth" class="form-control" />
+                <input asp-for="DateOfBirth" class="form-control" placeholder="YYYY-MM-DD" />
                 <span asp-validation-for="DateOfBirth" class="text-danger"></span>
             </div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
+                <a asp-action="Index" class="btn btn-default">Cancel</a>
             </div>
         </form>
     </div>
 </div>
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
