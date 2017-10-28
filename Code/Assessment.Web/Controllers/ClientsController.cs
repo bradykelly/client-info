@@ -35,7 +35,7 @@ namespace Assessment.Web.Controllers
             var rawClients = await _clients.ReadAsync();
             foreach (var client in rawClients)
             {
-                var model = ClientViewModel.FromDataModel(client);
+                var model = ClientViewModel.FromDto(client);
                 models.Add(model);
             }
 
@@ -91,25 +91,22 @@ namespace Assessment.Web.Controllers
             {
                 return NotFound();
             }
-            var model = ClientViewModel.FromDataModel(client);
+            var model = ClientViewModel.FromDto(client);
 
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("GivenName,FamilyName,GenderId,DateOfBirth,Id")] ClientViewModel model)
+        public async Task<IActionResult> Edit([Bind("GivenName,FamilyName,GenderId,DateOfBirth,Id")] ClientViewModel model)
         {
-            if (id != model.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(model);
+                    var client = model.ToDto(model);
+                    client.Gender = null;
+                    _context.Update(client);                    
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -118,13 +115,11 @@ namespace Assessment.Web.Controllers
                     {
                         return NotFound();
                     }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             return View(model);
         }
 
@@ -141,7 +136,7 @@ namespace Assessment.Web.Controllers
             {
                 return NotFound();
             }
-            var model = ClientViewModel.FromDataModel(client);
+            var model = ClientViewModel.FromDto(client);
 
             return View(model);
         }

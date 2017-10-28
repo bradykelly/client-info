@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using Assessment.Dto;
 using Assessment.Web.Models;
@@ -13,7 +15,7 @@ namespace Assessment.Web.ViewModels
     {
         public ClientViewModel()
         {
-            GendersList = new SelectList(ClientModel.GenderModels.Where(m => m.Id != (int)Genders.Withheld), "Id", "Name");
+            GendersList = new SelectList(ClientModel.GenderModels.Where(m => m.Id != (int)Genders.Unknown), "Id", "Name");
         }
 
         [Required]
@@ -48,11 +50,11 @@ namespace Assessment.Web.ViewModels
 
         public List<Address> OtherAddresses { get; } = new List<Address>();        
 
-        public static ClientViewModel FromDataModel(Client dto)
+        public static ClientViewModel FromDto(Client dto)
         {
             var model = new ClientViewModel();
             model.Id = dto.Id;
-            model.DateOfBirth = dto.DateOfBirth.ToString("yyyy-MM-dd");
+            model.DateOfBirth = dto.DateOfBirth.ToString(DateFormat);
             model.FamilyName = dto.FamilyName;
             model.GenderId = dto.GenderId;
             model.GivenName = dto.GivenName;
@@ -61,6 +63,21 @@ namespace Assessment.Web.ViewModels
             model.PhysicalAddress = dto.Addresses.SingleOrDefault(c => c.AddressType == AddressTypePhysical);
 
             return model;
+        }
+
+        public Client ToDto(ClientViewModel model)
+        {
+            Debug.Assert(model.GenderId != null, "model.GenderId != null");
+            var dto = new Client
+            {
+                Id = model.Id,
+                GenderId = model.GenderId.Value,
+                GivenName = model.GivenName,
+                FamilyName = model.FamilyName,
+                DateOfBirth = DateTime.ParseExact(model.DateOfBirth, DateFormat, CultureInfo.InvariantCulture)
+            };
+
+            return dto;
         }
     }
 }

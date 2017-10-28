@@ -22,7 +22,7 @@ namespace Assessment.Web.ViewModels
         public void Read()
         {
             var items = _clients.BuildDummyData().ToList();
-            var models = items.Select(m => ClientViewModel.FromDataModel((Client)m));
+            var models = items.Select(m => ClientViewModel.FromDto((Client)m));
 
             Items = models.ToList();
         }

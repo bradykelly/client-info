@@ -8,6 +8,7 @@ namespace Assessment.Web.ViewModels.Base
         public const string AddressTypePhysical = "Physical";
         public const string AddressTypePostal = "Postal";
         public const string PhoneTypeCell = "CellPhone";
+        public const string DateFormat = "yyyy-MM-dd";
 
         public int Id { get; set; }
 
