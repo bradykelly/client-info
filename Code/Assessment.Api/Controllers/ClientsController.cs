@@ -13,36 +13,45 @@ namespace Assessment.Api.Controllers
     {
         private readonly IDataService _clients;
 
-        public ClientsController(IDataService clientService)
+        public ClientsController(IDataService dataService)
         {
-            _clients = clientService;
+            _clients = dataService;
         }
 
-    [HttpGet]
-    [Route("Get")]
-    public async Task<IEnumerable<Client>> Get()
-    {
-        // API side.
-        IEnumerable<Client> clients = await _clients.ReadAsync();
-        return clients;
-    }
+        [HttpPost]
+        public int Post([Bind("GivenName,FamilyName,GenderId,DateOfBirth,Id")] Client model)
+        {
+            return 0;
+        }
+
+        [HttpGet]
+        [Route("Get")]
+        [Produces(typeof(IEnumerable<Client>))]
+        public async Task<IActionResult> Get()
+        {
+            // This is API side.
+            var clients = await _clients.ReadAsync();
+            return Ok(clients);
+        }
 
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        [Produces(typeof(Client))]
+        public async Task<IActionResult> Get(int id)
         {
-            return "value";
+            var clients = await _clients.ReadAsync(id);
+            if (clients == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(clients);
         }
-        
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-        
+
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)
         {
         }
-        
+
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

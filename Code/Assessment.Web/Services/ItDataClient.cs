@@ -8,5 +8,6 @@ namespace Assessment.Web.Services
         // NB catch up with implementation.
         Task CreateAsync(Client client);
         Task<IEnumerable<Client>> ReadAsync();
+        Task<Client> ReadAsync(int id);
     }
 }

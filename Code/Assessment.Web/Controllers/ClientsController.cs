@@ -29,7 +29,7 @@ namespace Assessment.Web.Controllers
             _clients = clientService;
         }
 
-        [HttpGet]
+        [HttpGet("api/Clients/Index")]
         public async Task<IActionResult> Index()
         {
             var models = new List<ClientViewModel>();
@@ -94,21 +94,21 @@ namespace Assessment.Web.Controllers
             return View(model);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Edit(int id)
+        [HttpGet("api/Client/Edit/{id:int}")]
+        public async Task<IActionResult> EditSingle(int id)
         {
             if (id == 0)
             {
-                throw new ArgumentNullException(nameof(id));
+                throw new ArgumentException("Zero is an invalid Client Id.", nameof(id));
             }
-            var client = await _context.Clients.SingleOrDefaultAsync(m => m.Id == id);
+            var client = await _clients.ReadAsync(id);
             if (client == null)
             {
                 return NotFound();
             }
             var model = ClientViewModel.FromDto(client);
 
-            return View(model);
+            return View("Edit", model);
         }
 
         [HttpPost]
@@ -166,7 +166,6 @@ namespace Assessment.Web.Controllers
             }
         }
 
-        // GET: ClientViewModels/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -184,7 +183,6 @@ namespace Assessment.Web.Controllers
             return View(model);
         }
 
-        // POST: ClientViewModels/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net.Http;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Assessment.Dto;
 using Assessment.Web.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 namespace Assessment.Web.Services
@@ -31,11 +25,26 @@ namespace Assessment.Web.Services
             result.EnsureSuccessStatusCode();
         }
 
+        /// <summary>
+        /// Performs a normal GET index call to the API.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerable{Client}"/></returns>
         public async Task<IEnumerable<Client>> ReadAsync()
         {
             var json = await Client.GetStringAsync("api/Clients/Get");
             var clients = JsonConvert.DeserializeObject<IEnumerable<Client>>(json);
             return clients;
+        }
+
+        /// <summary>
+        /// Performs a GET call to the API to fetch a single Client record.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerable{Client}"/> containing all client records in the database.</returns>        
+        public async Task<Client> ReadAsync(int id)
+        {
+            var json = await Client.GetStringAsync($"api/Clients/Get/{id}");
+            var client = JsonConvert.DeserializeObject<Client>(json);
+            return client;
         }
 
         private Client BuildFromDataReader(SqlDataReader reader)
