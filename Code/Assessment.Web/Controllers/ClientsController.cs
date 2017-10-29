@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -97,6 +98,7 @@ namespace Assessment.Web.Controllers
         [HttpGet("api/Client/Edit/{id:int}")]
         public async Task<IActionResult> EditSingle(int id)
         {
+            Debug.Fail("Inside EditSingle");
             if (id == 0)
             {
                 throw new ArgumentException("Zero is an invalid Client Id.", nameof(id));
@@ -115,6 +117,7 @@ namespace Assessment.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([Bind("GivenName,FamilyName,GenderId,DateOfBirth,Id")] ClientViewModel model)
         {
+            Debug.Fail("Inside Edit");
             // Can't rely on client side validations only.
             ValidateClient(model);
 

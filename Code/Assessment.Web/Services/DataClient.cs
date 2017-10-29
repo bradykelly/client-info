@@ -18,6 +18,10 @@ namespace Assessment.Web.Services
 
         private static readonly HttpClient Client = new HttpClient {BaseAddress = new Uri("http://localhost:63675/") };
         
+        /// <summary>
+        /// Creates a new <see cref="Client"/> record in the data store.
+        /// </summary>
+        /// <param name="client">An <see cref="HttpClient"/> used to contact the API.</param>
         public async Task CreateAsync(Client client)
         {
             var content = JsonConvert.SerializeObject(client);
