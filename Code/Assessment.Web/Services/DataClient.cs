@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 
 namespace Assessment.Web.Services
 {
+    [Serializable]
     public class DataClient : IDataClient
     {
         public DataClient()

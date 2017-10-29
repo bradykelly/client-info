@@ -1,29 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Assessment.Web.Data;
-using Assessment.Web.Models;
 using Assessment.Web.Services;
 using Assessment.Web.ViewModels;
 using Assessment.Web.ViewModels.Base;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
 
 namespace Assessment.Web.Controllers
 {
-
     public class ClientsController : Controller
     {
         private readonly IDataClient _clients;
 
-        public ClientsController(AppDbContext context, IDataClient clientService, IConfiguration config)
+        public ClientsController(IDataClient clientService, IConfiguration config)
         {
             _clients = clientService;
         }
@@ -53,6 +44,7 @@ namespace Assessment.Web.Controllers
             return View(model);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var models = new List<ClientViewModel>();

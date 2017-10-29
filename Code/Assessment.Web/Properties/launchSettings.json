@@ -10,8 +10,10 @@
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
+      "workingDirectory": "Clients/Index",
       "launchBrowser": true,
       "environmentVariables": {
+        "Key": "Value",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },

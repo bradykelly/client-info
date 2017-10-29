@@ -20,7 +20,7 @@ namespace Assessment.Api.Controllers
 
         [HttpPost("Create")]
         [Produces(typeof(int))]
-        public int Create([Bind("GivenName,FamilyName,GenderId,DateOfBirth,Id")] Client client)
+        public int Post([Bind("GivenName,FamilyName,GenderId,DateOfBirth,Id")] Client client)
         {
             var ret = _clients.Create(client);
             return ret;
@@ -34,7 +34,7 @@ namespace Assessment.Api.Controllers
             return Ok(clients);
         }
 
-        [HttpGet("Read/{id}")]
+        [HttpGet("Read/{id:int}")]
         [Produces(typeof(Client))]
         public async Task<IActionResult> Read(int id)
         {
@@ -55,7 +55,7 @@ namespace Assessment.Api.Controllers
             _clients.UpdateAsync(client);
         }
 
-        [HttpGet("api/Client/Delete/{id:int}")]
+        [HttpGet("Delete/{id:int}")]
         public void Delete(int id)
         {
         }

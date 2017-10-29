@@ -1,5 +1,5 @@
-﻿using Assessment.Api.Services;
-using Assessment.Web.Data;
+﻿using Assessment.Api.Data;
+using Assessment.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
