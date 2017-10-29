@@ -7,8 +7,8 @@ using Newtonsoft.Json;
 
 namespace Assessment.Api.Controllers
 {
+    [Route("api/[controller]")]
     [Produces("application/json")]
-    [Route("api/Clients")]
     public class ClientsController : Controller
     {
         private readonly IDataService _clients;
@@ -21,38 +21,37 @@ namespace Assessment.Api.Controllers
         [HttpPost]
         public int Post([Bind("GivenName,FamilyName,GenderId,DateOfBirth,Id")] Client model)
         {
+            // NB Implement.
             return 0;
         }
 
-        [HttpGet]
-        [Route("Get")]
+        [HttpGet("api/Client/Get")]
         [Produces(typeof(IEnumerable<Client>))]
         public async Task<IActionResult> Get()
         {
-            // This is API side.
             var clients = await _clients.ReadAsync();
             return Ok(clients);
         }
 
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("api/Client/Get/{id:int}")]
         [Produces(typeof(Client))]
         public async Task<IActionResult> Get(int id)
         {
-            var clients = await _clients.ReadAsync(id);
-            if (clients == null)
+            var client = await _clients.ReadAsync(id);
+            if (client == null)
             {
                 return NotFound();
             }
 
-            return Ok(clients);
+            return Ok(client);
         }
 
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpGet("api/Client/Put")]
+        public void Put([FromBody]string value)
         {
         }
 
-        [HttpDelete("{id}")]
+        [HttpGet("api/Client/Delete/{id:int}")]
         public void Delete(int id)
         {
         }

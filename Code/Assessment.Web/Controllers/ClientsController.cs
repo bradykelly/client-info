@@ -13,10 +13,12 @@ using Assessment.Web.Models;
 using Assessment.Web.Services;
 using Assessment.Web.ViewModels;
 using Assessment.Web.ViewModels.Base;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
 
 namespace Assessment.Web.Controllers
 {
+    [Route("api/Clients/")]
     public class ClientsController : Controller
     {
         private readonly IConfiguration _config;
@@ -30,7 +32,7 @@ namespace Assessment.Web.Controllers
             _clients = clientService;
         }
 
-        [HttpGet("api/Clients/Index")]
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var models = new List<ClientViewModel>();

@@ -18,10 +18,10 @@ namespace Assessment.Web
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            ClientModel = new ClientModel(configuration);
+            ClientModel = new ClientManager(configuration);
         }
 
-        public static ClientModel ClientModel { get; set; } 
+        public static ClientManager ClientModel { get; set; } 
         public static IConfiguration Configuration { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -47,10 +47,11 @@ namespace Assessment.Web
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseDeveloperExceptionPage();
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
 
-            ClientModel = new ClientModel(Configuration);
+            ClientModel = new ClientManager(Configuration);
             ClientModel.PopulateCore();
 
             ////var dummies = new ClientCrudService(Configuration);

@@ -5,10 +5,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace Assessment.Web.Models
 {
-    // NB Naming???
-    public class ClientModel
+    public class ClientManager
     {
-        public ClientModel(IConfiguration configuration)
+        public ClientManager(IConfiguration configuration)
         {
             _config = configuration;
         }

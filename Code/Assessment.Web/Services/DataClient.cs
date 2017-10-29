@@ -35,7 +35,16 @@ namespace Assessment.Web.Services
         /// <returns>An <see cref="IEnumerable{Client}"/></returns>
         public async Task<IEnumerable<Client>> ReadAsync()
         {
-            var json = await Client.GetStringAsync("api/Clients/Get");
+            string json = null;
+            try
+            {
+                json = await Client.GetStringAsync("api/Clients/Get");
+            }
+            catch (Exception ex)
+            {
+                var name = ex.GetType().Name;
+                throw;
+            }
             var clients = JsonConvert.DeserializeObject<IEnumerable<Client>>(json);
             return clients;
         }
@@ -51,18 +60,6 @@ namespace Assessment.Web.Services
             return client;
         }
 
-        private Client BuildFromDataReader(SqlDataReader reader)
-        {
-            var client = new Client();
-            client.Id = (int)reader["Id"];
-            client.Gender = ClientModel.GenderModels.SingleOrDefault(g => g.Id == client.Id);
-            client.DateOfBirth = (DateTime)reader["DateOfBirth"];
-            client.FamilyName = reader["FamilyName"].ToString();
-            client.GenderId = Convert.ToChar(reader["GenderId"]);
-            client.GivenName = reader["GivenName"].ToString();
-            return client;
-        }
-
         // TODO Remove.
         public IEnumerable<Client> BuildDummyData()
         {
@@ -71,28 +68,28 @@ namespace Assessment.Web.Services
 
                 new Client
                 {
-                    Gender =  ClientModel.GenderModels.Single(g => g.Id == (int)Genders.Male),
+                    Gender =  ClientManager.GenderModels.Single(g => g.Id == (int)Genders.Male),
                     FamilyName = "Smith",
                     GivenName = "Roger",
                     DateOfBirth = new DateTime(1980, 4, 16)
                 },
                 new Client
                 {
-                    Gender = ClientModel.GenderModels.Single(g => g.Id == (int)Genders.Female),
+                    Gender = ClientManager.GenderModels.Single(g => g.Id == (int)Genders.Female),
                     FamilyName = "Smith",
                     GivenName = "Jane",
                     DateOfBirth = new DateTime(2000, 8, 6)
                 },
                 new Client
                 {
-                    Gender = ClientModel.GenderModels.Single(g => g.Id == (int)Genders.Withheld),
+                    Gender = ClientManager.GenderModels.Single(g => g.Id == (int)Genders.Withheld),
                     FamilyName = "Gotham",
                     GivenName = "Cindy",
                     DateOfBirth = new DateTime(2010, 3, 2)
                 },
                 new Client
                 {
-                    Gender = ClientModel.GenderModels.Single(g => g.Id == (int)Genders.Female),
+                    Gender = ClientManager.GenderModels.Single(g => g.Id == (int)Genders.Female),
                     FamilyName = "Andrews",
                     GivenName = "Jeanette",
                     DateOfBirth = new DateTime(2019, 7, 6)

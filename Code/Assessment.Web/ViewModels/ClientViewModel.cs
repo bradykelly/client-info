@@ -15,7 +15,7 @@ namespace Assessment.Web.ViewModels
     {
         public ClientViewModel()
         {
-            GendersList = new SelectList(ClientModel.GenderModels.Where(m => m.Id != (int)Genders.Unknown), "Id", "Name");
+            GendersList = new SelectList(ClientManager.GenderModels.Where(m => m.Id != (int)Genders.Unknown), "Id", "Name");
         }
 
         [Required]
