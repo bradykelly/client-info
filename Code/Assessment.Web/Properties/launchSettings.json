@@ -10,7 +10,7 @@
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
-      "workingDirectory": "Clients/Index",
+      "workingDirectory": "clients",
       "launchBrowser": true,
       "environmentVariables": {
         "Key": "Value",

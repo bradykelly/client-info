@@ -38,7 +38,7 @@ namespace Assessment.Web.Services
         {
             string json = null;
 
-            json = await Client.GetStringAsync("api/Clients/Read");
+            json = await Client.GetStringAsync("api/Clients");
             var clients = JsonConvert.DeserializeObject<IEnumerable<Client>>(json);
             return clients;
         }

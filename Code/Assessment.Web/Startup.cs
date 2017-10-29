@@ -40,7 +40,12 @@ namespace Assessment.Web
 
             app.UseDeveloperExceptionPage();
             app.UseStaticFiles();
-            app.UseMvcWithDefaultRoute();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Clients}/{action=Index}/{id?}");
+            });
 
             ClientModel = new ClientManager(Configuration);
             ClientModel.PopulateCore();

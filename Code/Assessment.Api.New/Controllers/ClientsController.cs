@@ -56,7 +56,7 @@ namespace Assessment.Api.New.Controllers
             return Ok(client);
         }
 
-        ////[HttpGet]
+        [HttpPut]
         public void Put([Bind("GivenName,FamilyName,GenderId,DateOfBirth,Id")] string json)
         {
             // NB Edit isn't saving.
@@ -64,7 +64,7 @@ namespace Assessment.Api.New.Controllers
             _clients.UpdateAsync(client);
         }
 
-        [HttpGet("Delete/{id:int}")]
+        [HttpDelete("Delete/{id:int}")]
         public void Delete(int id)
         {
         }
