@@ -17,7 +17,7 @@ namespace Assessment.Web.Services
             Client.DefaultRequestHeaders.Add("Accept", new[] { "application/json", "text/javascript" });
         }
 
-        private static readonly HttpClient Client = new HttpClient { BaseAddress = new Uri("http://localhost:63675/") };
+        private static readonly HttpClient Client = new HttpClient { BaseAddress = new Uri("http://localhost:64232/") };
 
         /// <summary>
         /// Creates a new <see cref="Client"/> record in the data store.
@@ -26,7 +26,7 @@ namespace Assessment.Web.Services
         public async Task Create(Client client)
         {
             var content = JsonConvert.SerializeObject(client);
-            var result = await Client.PostAsync("api/Clients/Create", new StringContent(content));
+            var result = await Client.PostAsync("api/Clients/Post", new StringContent(content));
             result.EnsureSuccessStatusCode();            
         }
 

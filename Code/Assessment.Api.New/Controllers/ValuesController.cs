@@ -3,12 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Assessment.Api.New.Controllers
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
+        }
+
         // GET api/values
         [HttpGet]
         public IEnumerable<string> Get()
@@ -17,7 +23,7 @@ namespace Assessment.Api.New.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public string Get(int id)
         {
             return "value";
