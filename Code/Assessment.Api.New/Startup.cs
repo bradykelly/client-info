@@ -35,8 +35,6 @@ namespace Assessment.Api.New
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseMvc();
         }
     }
 }

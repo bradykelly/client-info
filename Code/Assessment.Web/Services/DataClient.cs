@@ -36,10 +36,8 @@ namespace Assessment.Web.Services
         /// <returns>An <see cref="IEnumerable{Client}"/></returns>
         public async Task<IEnumerable<Client>> ReadAsync()
         {
-            string json = null;
-
-            json = await Client.GetStringAsync("api/Clients");
-            var clients = JsonConvert.DeserializeObject<IEnumerable<Client>>(json);
+            var json = await Client.PostAsync("api/Clients", new StringContent(""));
+            var clients = JsonConvert.DeserializeObject<IEnumerable<Client>>(await json.Content.ReadAsStringAsync());
             return clients;
         }
 
@@ -49,7 +47,7 @@ namespace Assessment.Web.Services
         /// <returns>An <see cref="IEnumerable{Client}"/> containing all client records in the database.</returns>        
         public async Task<Client> ReadAsync(int id)
         {
-            var json = await Client.GetStringAsync($"api/Clients/Read/{id}");
+            var json = await Client.GetStringAsync($"api/Clients/Read/{id:int}");
             var client = JsonConvert.DeserializeObject<Client>(json);
             return client;
         }

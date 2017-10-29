@@ -26,7 +26,7 @@ namespace Assessment.Api.Controllers
             return ret;
         }
 
-        [HttpGet("Read")]
+        [HttpPost("Read")]
         [Produces(typeof(IEnumerable<Client>))]
         public async Task<IActionResult> Read()
         {
@@ -34,7 +34,7 @@ namespace Assessment.Api.Controllers
             return Ok(clients);
         }
 
-        [HttpGet("Read/{id:int}")]
+        [HttpGet("Read/{id}")]
         [Produces(typeof(Client))]
         public async Task<IActionResult> Read(int id)
         {
@@ -47,7 +47,7 @@ namespace Assessment.Api.Controllers
             return Ok(client);
         }
 
-        [HttpGet("Update")]
+        [HttpPut("Update")]
         public void Put([Bind("GivenName,FamilyName,GenderId,DateOfBirth,Id")] string json)
         {
             // NB Edit isn't saving.
@@ -55,7 +55,7 @@ namespace Assessment.Api.Controllers
             _clients.UpdateAsync(client);
         }
 
-        [HttpGet("Delete/{id:int}")]
+        [HttpDelete("Delete/{id:int}")]
         public void Delete(int id)
         {
         }

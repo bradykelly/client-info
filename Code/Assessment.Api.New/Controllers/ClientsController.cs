@@ -20,17 +20,24 @@ namespace Assessment.Api.New.Controllers
         }
 
         [HttpPost]
-        [Produces(typeof(int))]
-        public int Post([Bind("GivenName,FamilyName,GenderId,DateOfBirth,Id")] Client client)
+        [Produces(typeof(IEnumerable<Client>))]
+        public async Task<IActionResult> Post([Bind("GivenName,FamilyName,GenderId,DateOfBirth,Id")] ClientRequest client)
         {
-            var ret = _clients.Create(client);
-            return ret;
+            if (client.IsForReadAll)
+            {
+                var ret = _clients.Create(client.Client);
+                return Ok(ret);
+            }
+
+            var clients = await _clients.ReadAsync();
+            return Ok(clients);
         }
 
         [HttpGet]
         [Produces(typeof(IEnumerable<Client>))]
         public async Task<IActionResult> Get()
         {
+            throw new Exception("Should not be here now.");
             try
             {
                 var clients = await _clients.ReadAsync();
