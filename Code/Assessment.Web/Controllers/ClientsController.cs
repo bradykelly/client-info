@@ -18,7 +18,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Assessment.Web.Controllers
 {
-    [Route("api/Clients/")]
+
     public class ClientsController : Controller
     {
         private readonly IConfiguration _config;
@@ -32,7 +32,6 @@ namespace Assessment.Web.Controllers
             _clients = clientService;
         }
 
-        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var models = new List<ClientViewModel>();
@@ -98,14 +97,14 @@ namespace Assessment.Web.Controllers
         }
 
         [HttpGet("api/Client/Edit/{id:int}")]
-        public async Task<IActionResult> EditSingle(int id)
+        public async Task<IActionResult> EditSingle(string id)
         {
             Debug.Fail("Inside EditSingle");
-            if (id == 0)
-            {
-                throw new ArgumentException("Zero is an invalid Client Id.", nameof(id));
-            }
-            var client = await _clients.ReadAsync(id);
+            ////if (id == 0)
+            ////{
+            ////    throw new ArgumentException("Zero is an invalid Client Id.", nameof(id));
+            ////}
+            var client = await _clients.ReadAsync(int.Parse(id));
             if (client == null)
             {
                 return NotFound();

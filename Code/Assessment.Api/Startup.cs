@@ -34,7 +34,10 @@ namespace Assessment.Api
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
             app.UseStaticFiles();
 
             app.UseMvc(routes =>

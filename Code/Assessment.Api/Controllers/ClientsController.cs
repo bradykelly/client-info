@@ -25,7 +25,7 @@ namespace Assessment.Api.Controllers
             return 0;
         }
 
-        [HttpGet("api/Client/Get")]
+        [HttpGet("Get")]
         [Produces(typeof(IEnumerable<Client>))]
         public async Task<IActionResult> Get()
         {
@@ -47,8 +47,9 @@ namespace Assessment.Api.Controllers
         }
 
         [HttpGet("api/Client/Put")]
-        public void Put([FromBody]string value)
+        public void Put([Bind("GivenName,FamilyName,GenderId,DateOfBirth,Id")] Client client)
         {
+
         }
 
         [HttpGet("api/Client/Delete/{id:int}")]

@@ -13,11 +13,11 @@ namespace Assessment.Web.Services
     {
         public DataClient()
         {
-            Client.DefaultRequestHeaders.Add("Accept", new []{ "application/json", "text/javascript" });
+            Client.DefaultRequestHeaders.Add("Accept", new[] { "application/json", "text/javascript" });
         }
 
-        private static readonly HttpClient Client = new HttpClient {BaseAddress = new Uri("http://localhost:63675/") };
-        
+        private static readonly HttpClient Client = new HttpClient { BaseAddress = new Uri("http://localhost:63675/") };
+
         /// <summary>
         /// Creates a new <see cref="Client"/> record in the data store.
         /// </summary>
@@ -36,15 +36,8 @@ namespace Assessment.Web.Services
         public async Task<IEnumerable<Client>> ReadAsync()
         {
             string json = null;
-            try
-            {
-                json = await Client.GetStringAsync("api/Clients/Get");
-            }
-            catch (Exception ex)
-            {
-                var name = ex.GetType().Name;
-                throw;
-            }
+
+            json = await Client.GetStringAsync("api/Clients/Get");
             var clients = JsonConvert.DeserializeObject<IEnumerable<Client>>(json);
             return clients;
         }
