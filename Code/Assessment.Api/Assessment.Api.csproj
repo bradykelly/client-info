@@ -1,24 +1,25 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
-
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
-
+  <ItemGroup>
+    <Compile Remove="Data\AppDbContext.cs" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
-    <PackageReference Include="WebApiRouteDebugger" Version="1.0.0" />
   </ItemGroup>
-
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="Data\" />
-    <Folder Include="Views\Routes\" />
   </ItemGroup>
-
+  <ItemGroup>
+    <ProjectReference Include="..\Assessment.Web\Assessment.Web.csproj">
+      <Project>{8428F08A-8F1B-4DAB-B091-9A59D955E6AD}</Project>
+      <Name>Assessment.Web</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="..\Assessment.Shared\Assessment.Shared.projitems" Label="Shared" />
-
 </Project>

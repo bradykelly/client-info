@@ -18,24 +18,25 @@ namespace Assessment.Api.Controllers
             _clients = dataService;
         }
 
-        [HttpPost]
-        public int Post([Bind("GivenName,FamilyName,GenderId,DateOfBirth,Id")] Client model)
+        [HttpPost("Create")]
+        [Produces(typeof(int))]
+        public int Create([Bind("GivenName,FamilyName,GenderId,DateOfBirth,Id")] Client client)
         {
-            // NB Implement.
-            return 0;
+            var ret = _clients.Create(client);
+            return ret;
         }
 
-        [HttpGet("Get")]
+        [HttpGet("Read")]
         [Produces(typeof(IEnumerable<Client>))]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Read()
         {
             var clients = await _clients.ReadAsync();
             return Ok(clients);
         }
 
-        [HttpGet("api/Client/Get/{id:int}")]
+        [HttpGet("Read/{id}")]
         [Produces(typeof(Client))]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Read(int id)
         {
             var client = await _clients.ReadAsync(id);
             if (client == null)
@@ -46,10 +47,12 @@ namespace Assessment.Api.Controllers
             return Ok(client);
         }
 
-        [HttpGet("api/Client/Put")]
-        public void Put([Bind("GivenName,FamilyName,GenderId,DateOfBirth,Id")] Client client)
+        [HttpGet("Update")]
+        public void Put([Bind("GivenName,FamilyName,GenderId,DateOfBirth,Id")] string json)
         {
-
+            // NB Edit isn't saving.
+            var client = JsonConvert.DeserializeObject<Client>(json);
+            _clients.UpdateAsync(client);
         }
 
         [HttpGet("api/Client/Delete/{id:int}")]

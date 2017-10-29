@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Assessment.Dto.Base;
+﻿using Assessment.Dto.Base;
 
 namespace Assessment.Dto
 {

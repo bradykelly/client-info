@@ -19,6 +19,11 @@ namespace Assessment.Api.Services
         private readonly string _connString;
         private IConfiguration _config;
 
+        /// <summary>
+        /// Inserts a new <c>Cient</c> into the data store.
+        /// </summary>
+        /// <param name="client">The client to insert.</param>
+        /// <returns>The <c>Id</c> identity Id value for the new client.</returns>
         public int Create(Client client)
         {
             using (var conn = new SqlConnection(_connString))
@@ -26,10 +31,14 @@ namespace Assessment.Api.Services
             {
                 conn.Open();
                 cmdInsert.CommandType = CommandType.Text;
-                cmdInsert.Parameters.AddWithValue("@givenName", client.GivenName);
+                var nameParam = new SqlParameter("@givenName", SqlDbType.NVarChar) {Value = client.GivenName};
+                cmdInsert.Parameters.Add(nameParam);
+                ////cmdInsert.Parameters.AddWithValue("@givenName", client.GivenName);
                 cmdInsert.Parameters.AddWithValue("@familyName", client.FamilyName);
                 cmdInsert.Parameters.AddWithValue("@Gender", client.Gender.Id);
-                cmdInsert.Parameters.AddWithValue("@DateOfBirth", client.DateOfBirth);
+                var dateParam = new SqlParameter("@DateOfBirth", SqlDbType.DateTime2) { Value = client.DateOfBirth };
+                cmdInsert.Parameters.Add(dateParam);
+                cmdInsert.Parameters["@DateOfBirth"].Value = client.DateOfBirth;
                 cmdInsert.ExecuteNonQuery();
 
                 using (var cmdIdentity = new SqlCommand("SELECT @@identity"))
@@ -43,33 +52,13 @@ namespace Assessment.Api.Services
             }
         }
 
-        // TODO Remove.
-        ////public IEnumerable<Client> Read()
-        ////{
-        ////    using (var conn = new SqlConnection(_connString))
-        ////    using (var cmdRead = new SqlCommand("SELECT * FROM Client", conn))
-        ////    {
-        ////        conn.Open();
-        ////        var ret = new List<Client>();
-
-        ////        var reader = cmdRead.ExecuteReader();
-        ////        while (reader.Read())
-        ////        {
-        ////            var client = BuildFromDataReader(reader);
-        ////            ret.Add(client);
-        ////        }
-
-        ////        return ret;
-        ////    }
-        ////}
-
         /// <summary>
         /// Reads all Client records from the data store.
         /// </summary>
-        /// <returns>A <see cref="List{Client}"/> for all Client recorda.</returns>
+        /// <returns>A <see cref="List{Client}"/> for all Client records.</returns>
         public async Task<IEnumerable<Client>> ReadAsync()
         {
-            using (var conn = new SqlConnection(_connString)) 
+            using (var conn = new SqlConnection(_connString))
             using (var cmdRead = new SqlCommand("SELECT * FROM Client", conn))
             {
                 conn.Open();
@@ -110,6 +99,30 @@ namespace Assessment.Api.Services
             }
         }
 
+        /// <summary>
+        /// Performs an update on an existing <see cref="Client"/>.
+        /// </summary>
+        /// <param name="client">The <c>Client</c> to update.</param>
+        public async Task UpdateAsync(Client client)
+        {
+            using (var conn = new SqlConnection(_connString))
+            using (var cmd = new SqlCommand("UPDATE CLIENT set " +
+                                                    "GivenName = @givenName, " +
+                                                    "FamilyName = @familyName, " +
+                                                    "GenderId = @genderId, " +
+                                                    "DateOfBirth = @DateOfBirth" +
+                                                    "WHERE Id = @id", conn))
+            {
+                conn.Open();
+                cmd.Parameters.AddWithValue("@id", client.Id);
+                cmd.Parameters.AddWithValue("@givenName", client.GivenName);
+                cmd.Parameters.AddWithValue("@familyName", client.FamilyName);
+                cmd.Parameters.AddWithValue("@genderId", client.GenderId);
+                cmd.Parameters.AddWithValue("@DateOfBirth", client.DateOfBirth);
+                await cmd.ExecuteNonQueryAsync();
+            }
+        }
+
         private Client BuildFromDataReader(SqlDataReader reader)
         {
             var client = new Client();
@@ -124,3 +137,4 @@ namespace Assessment.Api.Services
         }
     }
 }
+

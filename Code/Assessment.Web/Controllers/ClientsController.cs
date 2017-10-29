@@ -21,15 +21,36 @@ namespace Assessment.Web.Controllers
 
     public class ClientsController : Controller
     {
-        private readonly IConfiguration _config;
-        private readonly AppDbContext _context;
         private readonly IDataClient _clients;
 
         public ClientsController(AppDbContext context, IDataClient clientService, IConfiguration config)
         {
-            _context = context;
-            _config = config;
             _clients = clientService;
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            var client = new Client();
+            var model = ClientViewModel.FromDto(client);
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("GivenName,FamilyName,GenderId,DateOfBirth,Id")] ClientViewModel model)
+        {
+            ValidateClient(model);
+
+            if (ModelState.IsValid)
+            {
+                var client = model.ToDto(model);
+                client.Gender = null;
+                await _clients.Create(client);
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(model);
         }
 
         public async Task<IActionResult> Index()
@@ -49,7 +70,7 @@ namespace Assessment.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            var client = await _context.Clients.SingleOrDefaultAsync(m => m.Id == id);
+            var client = await _clients.ReadAsync(id);
             if (client == null)
             {
                 return NotFound();
@@ -60,51 +81,13 @@ namespace Assessment.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Edit(int id)
         {
-            var client = new Client();
-            var model = ClientViewModel.FromDto(client);
-            return View(model);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("GivenName,FamilyName,GenderId,DateOfBirth,Id")] ClientViewModel model)
-        {
-            ValidateClient(model);
-
-            if (ModelState.IsValid)
+            if (id == 0)
             {
-                try
-                {
-                    var client = model.ToDto(model);
-                    client.Gender = null;
-                    _context.Clients.Add(client);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ClientExists(model.Id))
-                    {
-                        return NotFound();
-                    }
-                    throw;
-                }
-                return RedirectToAction(nameof(Index));
+                throw new ArgumentException("Zero is an invalid Client Id.", nameof(id));
             }
-
-            return View(model);
-        }
-
-        [HttpGet("api/Client/Edit/{id:int}")]
-        public async Task<IActionResult> EditSingle(string id)
-        {
-            Debug.Fail("Inside EditSingle");
-            ////if (id == 0)
-            ////{
-            ////    throw new ArgumentException("Zero is an invalid Client Id.", nameof(id));
-            ////}
-            var client = await _clients.ReadAsync(int.Parse(id));
+            var client = await _clients.ReadAsync(id);
             if (client == null)
             {
                 return NotFound();
@@ -118,28 +101,15 @@ namespace Assessment.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit([Bind("GivenName,FamilyName,GenderId,DateOfBirth,Id")] ClientViewModel model)
         {
-            Debug.Fail("Inside Edit");
             // Can't rely on client side validations only.
             ValidateClient(model);
 
             // Now we're working with a ModelState with extra errors from the above validation.
             if (ModelState.IsValid)
             {
-                try
-                {
-                    var client = model.ToDto(model);
-                    client.Gender = null;
-                    _context.Update(client);                    
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ClientExists(model.Id))
-                    {
-                        return NotFound();
-                    }
-                    throw;
-                }
+                var client = model.ToDto(model);
+                client.Gender = null;
+                await _clients.UpdateAsync(client);
                 return RedirectToAction(nameof(Index));
             }
 
@@ -177,7 +147,7 @@ namespace Assessment.Web.Controllers
                 return NotFound();
             }
 
-            var client = await _context.Clients.SingleOrDefaultAsync(m => m.Id == id);
+            var client = new Client();////await _context.Clients.SingleOrDefaultAsync(m => m.Id == id);
             if (client == null)
             {
                 return NotFound();
@@ -187,19 +157,19 @@ namespace Assessment.Web.Controllers
             return View(model);
         }
 
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var clientViewModel = await _context.Clients.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Clients.Remove(clientViewModel);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        ////[HttpPost, ActionName("Delete")]
+        ////[ValidateAntiForgeryToken]
+        ////public async Task<IActionResult> DeleteConfirmed(int id)
+        ////{
+        ////    var clientViewModel = await _context.Clients.SingleOrDefaultAsync(m => m.Id == id);
+        ////    _context.Clients.Remove(clientViewModel);
+        ////    await _context.SaveChangesAsync();
+        ////    return RedirectToAction(nameof(Index));
+        ////}
 
-        private bool ClientExists(int id)
-        {
-            return _context.Clients.Any(e => e.Id == id);
-        }
+        ////private bool ClientExists(int id)
+        ////{
+        ////    return _context.Clients.Any(e => e.Id == id);
+        ////}
     }
 }

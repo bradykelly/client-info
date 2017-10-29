@@ -22,11 +22,11 @@ namespace Assessment.Web.Services
         /// Creates a new <see cref="Client"/> record in the data store.
         /// </summary>
         /// <param name="client">An <see cref="HttpClient"/> used to contact the API.</param>
-        public async Task CreateAsync(Client client)
+        public async Task Create(Client client)
         {
             var content = JsonConvert.SerializeObject(client);
             var result = await Client.PostAsync("api/Clients/Create", new StringContent(content));
-            result.EnsureSuccessStatusCode();
+            result.EnsureSuccessStatusCode();            
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Assessment.Web.Services
         {
             string json = null;
 
-            json = await Client.GetStringAsync("api/Clients/Get");
+            json = await Client.GetStringAsync("api/Clients/Read");
             var clients = JsonConvert.DeserializeObject<IEnumerable<Client>>(json);
             return clients;
         }
@@ -48,56 +48,19 @@ namespace Assessment.Web.Services
         /// <returns>An <see cref="IEnumerable{Client}"/> containing all client records in the database.</returns>        
         public async Task<Client> ReadAsync(int id)
         {
-            var json = await Client.GetStringAsync($"api/Clients/Get/{id}");
+            var json = await Client.GetStringAsync($"api/Clients/Read/{id}");
             var client = JsonConvert.DeserializeObject<Client>(json);
             return client;
         }
 
-        // TODO Remove.
-        public IEnumerable<Client> BuildDummyData()
+        /// <summary>
+        /// Performs a PUT call to the API to update a client record.
+        /// </summary>
+        /// <param name="client">The <see cref="Client"/> to update.</param>
+        public async Task UpdateAsync(Client client)
         {
-            var ret = new List<Client>
-            {
-
-                new Client
-                {
-                    Gender =  ClientManager.GenderModels.Single(g => g.Id == (int)Genders.Male),
-                    FamilyName = "Smith",
-                    GivenName = "Roger",
-                    DateOfBirth = new DateTime(1980, 4, 16)
-                },
-                new Client
-                {
-                    Gender = ClientManager.GenderModels.Single(g => g.Id == (int)Genders.Female),
-                    FamilyName = "Smith",
-                    GivenName = "Jane",
-                    DateOfBirth = new DateTime(2000, 8, 6)
-                },
-                new Client
-                {
-                    Gender = ClientManager.GenderModels.Single(g => g.Id == (int)Genders.Withheld),
-                    FamilyName = "Gotham",
-                    GivenName = "Cindy",
-                    DateOfBirth = new DateTime(2010, 3, 2)
-                },
-                new Client
-                {
-                    Gender = ClientManager.GenderModels.Single(g => g.Id == (int)Genders.Female),
-                    FamilyName = "Andrews",
-                    GivenName = "Jeanette",
-                    DateOfBirth = new DateTime(2019, 7, 6)
-                }
-            };
-            return ret;
-        }
-
-        public async Task InsertDummyClients()
-        {
-            var clients = BuildDummyData();
-            foreach (var client in clients)
-            {
-                await CreateAsync(client);
-            }
+            var json = JsonConvert.SerializeObject(client);
+            await Client.PutAsync("api/Clients/Update", new StringContent(json));
         }
     }
 }

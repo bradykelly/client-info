@@ -9,5 +9,6 @@ namespace Assessment.Api.Services
         int Create(Client client);
         Task<IEnumerable<Client>> ReadAsync();
         Task<Client> ReadAsync(int id);
+        Task UpdateAsync(Client client);
     }
 }
