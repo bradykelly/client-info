@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
-using Assessment.Web.Dto;
 using Microsoft.Extensions.Configuration;
 using Assessment.Dto;
 

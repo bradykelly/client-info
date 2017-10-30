@@ -6,7 +6,6 @@ using Assessment.Api.New.Services;
 using System.Linq;
 using Assessment.Models;
 using Assessment.Models.Dto;
-using Assessment.Web;
 
 namespace Assessment.Api.New.Controllers
 {

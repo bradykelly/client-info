@@ -92,7 +92,8 @@ namespace Assessment.Web.Controllers
                 return NotFound();
             }
 
-            var model = ClientViewModel.FromDto(client);
+            var only1 = client.Single();
+            var model = ClientViewModel.FromDto(only1);
 
             return View("Edit", model);
         }
