@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Assessment.Web;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Assessment.Api.New.Services;
-using System;
+using System.Linq;
+using Assessment.Models;
+using Assessment.Models.Dto;
+using Assessment.Web;
 
 namespace Assessment.Api.New.Controllers
 {
@@ -25,41 +27,53 @@ namespace Assessment.Api.New.Controllers
         {
             if (client.IsForReadAll)
             {
-                var ret = _clients.Create(client.Client);
+                var ret = _clients.CreateAsync(client.Client);
                 return Ok(ret);
             }
 
-            var clients = await _clients.ReadAsync();
+            var req = new ClientRequest {ClientId = client.ClientId};
+            var clients = await _clients.ReadAsync(req);
             return Ok(clients);
         }
 
-        [HttpGet]
-        [Produces(typeof(IEnumerable<Client>))]
-        public async Task<IActionResult> Get()
+        [HttpPost]
+        public async Task<IActionResult> Get(string requestJson)
         {
-            throw new Exception("Should not be here now.");
-            try
+            var reqIn = JsonConvert.DeserializeObject<ClientRequest>(requestJson);
+            if (reqIn.IsForReadAll)
             {
-                var clients = await _clients.ReadAsync();
+                var allClients = await _clients.ReadAsync(reqIn);
+                return Ok(allClients); 
+            }
+            var reqOut = new ClientRequest();
+            reqOut.ClientId = reqIn.ClientId;
+            var clients = await _clients.ReadAsync(reqOut);
+            if (reqIn.IsForReadAll)
+            {
                 return Ok(clients);
             }
-            catch (Exception ex)
+
+            // Prevent multiple iterations of Clients.
+            var clientList = clients as IList<Client> ?? clients.ToList();
+            if (clientList.Any())
             {
-                var msg = ex.Message;
-                throw;
+                return Ok(clientList.Single());
             }
+
+            return BadRequest();
         }
 
         [HttpGet("Get/{id:int}")]
         [Produces(typeof(Client))]
         public async Task<IActionResult> Get(int id)
         {
-            var client = await _clients.ReadAsync(id);
+            var request = new ClientRequest();
+            request.ClientId = id;
+            var client = await _clients.ReadAsync(request);
             if (client == null)
             {
                 return NotFound();
             }
-
             return Ok(client);
         }
 

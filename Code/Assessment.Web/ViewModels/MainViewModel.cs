@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Assessment.Web.Services;
-using Assessment.Web.ViewModels.Base;
-using Microsoft.Extensions.Configuration;
+﻿using Assessment.Web.ViewModels.Base;
 
 namespace Assessment.Web.ViewModels
 {

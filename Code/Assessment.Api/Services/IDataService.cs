@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Assessment.Web;
+using Assessment.Api.Dto;
 
 namespace Assessment.Api.Services
 {

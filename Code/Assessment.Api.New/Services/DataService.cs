@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
-using Assessment.Web;
 using Microsoft.Extensions.Configuration;
+using Assessment.Models;
+using Assessment.Models.Dto;
 
 namespace Assessment.Api.New.Services
 {
@@ -24,7 +25,7 @@ namespace Assessment.Api.New.Services
         /// </summary>
         /// <param name="client">The client to insert.</param>
         /// <returns>The <c>Id</c> identity Id value for the new client.</returns>
-        public int Create(Client client)
+        public int CreateAsync(Client client)
         {
             using (var conn = new SqlConnection(_connString))
             using (var cmdInsert = new SqlCommand("INSERT CLIENT (GivenName, FamilyName, GenderId, DateOfBirth) VALUES(@givenName, @familyName, @gender, @DateOfBirth)", conn))
@@ -56,10 +57,10 @@ namespace Assessment.Api.New.Services
         /// Reads all Client records from the data store.
         /// </summary>
         /// <returns>A <see cref="List{Client}"/> for all Client records.</returns>
-        public async Task<IEnumerable<Client>> ReadAsync()
+        public async Task<IEnumerable<Client>> ReadAsync(ClientRequest request)
         {
-            using (var conn = new SqlConnection(_connString))
-            using (var cmdRead = new SqlCommand("SELECT * FROM Client", conn))
+            using (var conn = new SqlConnection(_connString)) 
+            using (var cmdRead = new SqlCommand($"SELECT * FROM Client WHERE Id == @clientId OR Id = Id", conn))
             {
                 conn.Open();
                 var ret = new List<Client>();
@@ -75,29 +76,29 @@ namespace Assessment.Api.New.Services
             }
         }
 
-        /// <summary>
-        /// Reads a specific Client record from the data store.
-        /// </summary>
-        /// <param name="id">The <c>Id</c> of the Client record to fetch.</param>
-        /// <returns>A <see cref="Client"/> object whose Id equals Id: <paramref name="id"/>.</returns>
-        public async Task<Client> ReadAsync(int id)
-        {
-            using (var conn = new SqlConnection(_connString))
-            using (var cmdRead = new SqlCommand("SELECT * FROM Client WHERE Id = @id", conn))
-            {
-                conn.Open();
-                cmdRead.Parameters.AddWithValue("@id", id);
-                var reader = await cmdRead.ExecuteReaderAsync();
+        ///// <summary>
+        ///// Reads a specific Client record from the data store.
+        ///// </summary>
+        ///// <param name="id">The <c>Id</c> of the Client record to fetch.</param>
+        ///// <returns>A <see cref="Client"/> object whose Id equals Id: <paramref name="id"/>.</returns>
+        //public async Task<Client> ReadAsync(int id)
+        //{
+        //    using (var conn = new SqlConnection(_connString))
+        //    using (var cmdRead = new SqlCommand("SELECT * FROM Client WHERE Id = @id", conn))
+        //    {
+        //        conn.Open();
+        //        cmdRead.Parameters.AddWithValue("@id", id);
+        //        var reader = await cmdRead.ExecuteReaderAsync();
 
-                if (reader.Read())
-                {
-                    var client = BuildFromDataReader(reader);
-                    return client;
-                }
+        //        if (reader.Read())
+        //        {
+        //            var client = BuildFromDataReader(reader);
+        //            return client;
+        //        }
 
-                return null;
-            }
-        }
+        //        return null;
+        //    }
+        //}
 
         /// <summary>
         /// Performs an update on an existing <see cref="Client"/>.

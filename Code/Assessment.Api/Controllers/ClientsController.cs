@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Assessment.Api.Dto;
 using Assessment.Api.Services;
-using Assessment.Web;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 

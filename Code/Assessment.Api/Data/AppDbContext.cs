@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Assessment.Web;
+﻿using Assessment.Api.Dto;
+using Microsoft.EntityFrameworkCore;
 
 namespace Assessment.Api.Data
 {

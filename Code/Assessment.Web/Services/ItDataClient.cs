@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Assessment.Dto;
+using Assessment.Models;
+using Assessment.Models.Dto;
 
 namespace Assessment.Web.Services
 {
@@ -8,7 +11,7 @@ namespace Assessment.Web.Services
         // NB catch up with implementation.
         Task Create(Client client);
         Task<IEnumerable<Client>> ReadAsync();
-        Task<Client> ReadAsync(int id);
+        Task<IEnumerable<Client>> ReadAsync(ClientRequest request);
         Task UpdateAsync(Client client);
     }
 }

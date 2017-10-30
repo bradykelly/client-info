@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using Assessment.Models;
+using Assessment.Models.Dto;
 using Assessment.Web.Services;
 using Assessment.Web.ViewModels;
 using Assessment.Web.ViewModels.Base;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
 namespace Assessment.Web.Controllers
@@ -62,12 +65,14 @@ namespace Assessment.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            var client = await _clients.ReadAsync(id);
+            var request = new ClientRequest();
+            request.ClientId = id;
+            var client = await _clients.ReadAsync(request);
             if (client == null)
             {
                 return NotFound();
             }
-            var model = ClientViewModel.FromDto(client);
+            var model = ClientViewModel.FromDto(client.Single());
 
             return View(model);
         }
@@ -79,11 +84,14 @@ namespace Assessment.Web.Controllers
             {
                 throw new ArgumentException("Zero is an invalid Client Id.", nameof(id));
             }
-            var client = await _clients.ReadAsync(id);
+
+            var request = new ClientRequest {ClientId = id};
+            var client = await _clients.ReadAsync(request);
             if (client == null)
             {
                 return NotFound();
             }
+
             var model = ClientViewModel.FromDto(client);
 
             return View("Edit", model);

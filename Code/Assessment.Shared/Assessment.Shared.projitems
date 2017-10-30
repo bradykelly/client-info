@@ -9,10 +9,14 @@
     <Import_RootNamespace>Assessment.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Address.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Dto\Address.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Base\BaseEntity.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Client.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Contact.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Gender.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Dto\Client.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ClientRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Dto\Contact.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Dto\Gender.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Dto\" />
   </ItemGroup>
 </Project>

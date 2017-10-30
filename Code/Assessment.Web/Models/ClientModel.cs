@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
-using Assessment.Dto;
+using Assessment.Web.Dto;
 using Microsoft.Extensions.Configuration;
+using Assessment.Dto;
 
 namespace Assessment.Web.Models
 {

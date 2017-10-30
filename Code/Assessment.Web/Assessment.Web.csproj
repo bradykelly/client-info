@@ -18,6 +18,8 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
 
-  <Import Project="..\Assessment.Shared\Assessment.Shared.projitems" Label="Shared" />
+  <ItemGroup>
+    <ProjectReference Include="..\Assessment.Models\Assessment.Models.csproj" />
+  </ItemGroup>
 
 </Project>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
-using Assessment.Web;
+using Assessment.Api.Dto;
 using Microsoft.Extensions.Configuration;
 
 namespace Assessment.Api.Services

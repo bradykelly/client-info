@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Assessment.Web.Models;
 using Newtonsoft.Json;
+using Assessment.Dto;
+using Assessment.Models;
+using Assessment.Models.Dto;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Assessment.Web.Services
 {
@@ -30,16 +31,23 @@ namespace Assessment.Web.Services
             result.EnsureSuccessStatusCode();            
         }
 
+        public Task<IEnumerable<Client>> ReadAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
-        /// Performs a normal GET index call to the API.
+        /// Performs a normal GET index call to the API to get all Clients.
         /// </summary>
         /// <returns>An <see cref="IEnumerable{Client}"/></returns>
-        public async Task<IEnumerable<Client>> ReadAsync()
+        public async Task<IEnumerable<Client>> ReadAsync(ClientRequest req)
         {
-            var json = await Client.PostAsync("api/Clients", new StringContent(""));
-            var clients = JsonConvert.DeserializeObject<IEnumerable<Client>>(await json.Content.ReadAsStringAsync());
+            var jsonIn = JsonConvert.SerializeObject(req.Client);
+            var jsonOut = await Client.PostAsync("api/Clients", new StringContent(jsonIn));
+            var clients = JsonConvert.DeserializeObject<IEnumerable<Client>>(await jsonOut.Content.ReadAsStringAsync());
             return clients;
         }
+
 
         /// <summary>
         /// Performs a GET call to the API to fetch a single Client record.
@@ -47,7 +55,7 @@ namespace Assessment.Web.Services
         /// <returns>An <see cref="IEnumerable{Client}"/> containing all client records in the database.</returns>        
         public async Task<Client> ReadAsync(int id)
         {
-            var json = await Client.GetStringAsync($"api/Clients/Read/{id:int}");
+            var json = await Client.GetStringAsync($"Clients/Read/{id:int}");
             var client = JsonConvert.DeserializeObject<Client>(json);
             return client;
         }
