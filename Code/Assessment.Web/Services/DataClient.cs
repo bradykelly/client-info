@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -42,10 +43,17 @@ namespace Assessment.Web.Services
         /// <returns>An <see cref="IEnumerable{Client}"/></returns>
         public async Task<IEnumerable<Client>> ReadAsync(ClientRequest req)
         {
-            var jsonIn = JsonConvert.SerializeObject(req.Client);
-            var jsonOut = await Client.PostAsync("api/Clients", new StringContent(jsonIn));
-            var clients = JsonConvert.DeserializeObject<IEnumerable<Client>>(await jsonOut.Content.ReadAsStringAsync());
-            return clients;
+            string jsonIn = JsonConvert.SerializeObject(req.Client);
+            if (req.IsForReadAll)
+            {                
+                var jsonOut = await Client.PostAsync("api/Clients", new StringContent(jsonIn));
+                var allclients = JsonConvert.DeserializeObject<IEnumerable<Client>>(await jsonOut.Content.ReadAsStringAsync());
+                return allclients; 
+            }
+            var json = await Client.PostAsync($"api/Clients/{req.ClientId}", new StringContent(null));
+            var clientRets = JsonConvert.DeserializeObject<IEnumerable<Client>>(await json.Content.ReadAsStringAsync());
+            var singleClient = new List<Client> {clientRets.Single(c => c.Id == req.ClientId)};
+            return singleClient;
         }
 
 

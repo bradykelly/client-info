@@ -51,8 +51,8 @@ namespace Assessment.Web.Controllers
         public async Task<IActionResult> Index()
         {
             var models = new List<ClientViewModel>();
-
-            var rawClients = await _clients.ReadAsync();
+            var req = new ClientRequest {IsForReadAll = true};
+            var rawClients = await _clients.ReadAsync(req);
             foreach (var client in rawClients)
             {
                 var model = ClientViewModel.FromDto(client);
