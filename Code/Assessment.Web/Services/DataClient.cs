@@ -25,16 +25,11 @@ namespace Assessment.Web.Services
         /// Creates a new <see cref="Client"/> record in the data store.
         /// </summary>
         /// <param name="client">An <see cref="HttpClient"/> used to contact the API.</param>
-        public async Task Create(Client client)
+        public async Task CreateAsync(Client client)
         {
             var content = JsonConvert.SerializeObject(client);
             var result = await Client.PostAsync("api/Clients/Post", new StringContent(content));
             result.EnsureSuccessStatusCode();            
-        }
-
-        public Task<IEnumerable<Client>> ReadAsync()
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -43,7 +38,8 @@ namespace Assessment.Web.Services
         /// <returns>An <see cref="IEnumerable{Client}"/></returns>
         public async Task<IEnumerable<Client>> ReadAsync(ClientRequest req)
         {
-            string jsonIn = JsonConvert.SerializeObject(req.Client);
+            // Can only post with content.
+            string jsonIn = JsonConvert.SerializeObject(new Client());
             if (req.IsForReadAll)
             {                
                 var jsonOut = await Client.PostAsync("api/Clients", new StringContent(jsonIn));

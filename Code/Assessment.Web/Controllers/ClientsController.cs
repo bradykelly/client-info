@@ -40,7 +40,7 @@ namespace Assessment.Web.Controllers
             {
                 var client = model.ToDto(model);
                 client.Gender = null;
-                await _clients.Create(client);
+                await _clients.CreateAsync(client);
                 return RedirectToAction(nameof(Index));
             }
 
